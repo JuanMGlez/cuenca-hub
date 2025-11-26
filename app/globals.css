@@ -2,15 +2,16 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #1e293b;
-  --primary: #1e40af;
-  --primary-dark: #1e3a8a;
-  --secondary: #0f766e;
-  --accent: #dc2626;
+  --foreground: #161a1d;
+  --primary: #1e5b4f;
+  --primary-dark: #002f2a;
+  --secondary: #9b2247;
+  --accent: #a57f2c;
   --muted: #f8fafc;
   --border: #e2e8f0;
-  --gov-blue: #003366;
-  --gov-teal: #006666;
+  --neutral: #98989A;
+  --burgundy: #611232;
+  --cream: #e6d194;
 }
 
 @theme inline {
@@ -34,14 +35,14 @@ body {
 }
 
 .gradient-bg {
-  background: linear-gradient(135deg, #003366 0%, #1e40af 50%, #0f766e 100%);
+  background: linear-gradient(135deg, #002f2a 0%, #1e5b4f 50%, #161a1d 100%);
 }
 
 .glass-effect {
   backdrop-filter: blur(12px);
   background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(230, 209, 148, 0.2);
+  box-shadow: 0 4px 24px rgba(22, 26, 29, 0.08);
 }
 
 .card-hover {
@@ -50,21 +51,21 @@ body {
 
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 12px 32px rgba(22, 26, 29, 0.15);
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #1e40af, #1e3a8a);
+  background: linear-gradient(135deg, #1e5b4f, #002f2a);
   transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(30, 64, 175, 0.3);
+  box-shadow: 0 8px 20px rgba(30, 91, 79, 0.4);
 }
 
 .gov-badge {
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  background: linear-gradient(135deg, #9b2247, #611232);
   color: white;
   font-size: 0.75rem;
   font-weight: 600;
