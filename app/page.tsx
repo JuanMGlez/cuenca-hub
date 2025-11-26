@@ -1,7 +1,8 @@
 'use client';
 
-import { BarChart3, Eye, Users, Droplets, MapPin, Shield, Zap, Globe } from 'lucide-react';
+import { BarChart3, Eye, Users, Droplets, MapPin, Shield, Zap, Globe, Target, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
+import LandingMap from '@/components/LandingMap';
 
 export default function Home() {
   return (
@@ -147,6 +148,71 @@ export default function Home() {
             <div>
               <div className="text-4xl font-bold mb-2 text-cream">100+</div>
               <div className="text-cream opacity-80">Puntos de Medición</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mapa Interactivo Section */}
+      <section className="py-24 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-[#9b2247]/10 to-[#1e5b4f]/10 px-4 py-2 rounded-full mb-6">
+              <MapPin className="w-4 h-4 text-[#9b2247]" />
+              <span className="text-sm font-semibold text-[#9b2247]">Monitoreo en Tiempo Real</span>
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold text-[#161a1d] mb-6">
+              Visualiza el Estado de la{' '}
+              <span className="bg-gradient-to-r from-[#9b2247] to-[#1e5b4f] bg-clip-text text-transparent">Cuenca</span>
+            </h2>
+            
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+              Explora alertas tempranas, proyectos de restauración activos y testimonios de la comunidad 
+              en nuestro mapa interactivo de la cuenca Lerma-Chapala-Santiago.
+            </p>
+          </div>
+
+          <div className="relative">
+            <LandingMap />
+            
+            {/* Leyenda */}
+            <div className="mt-8 grid md:grid-cols-3 gap-6">
+              <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-red-600" />
+                  </div>
+                  <h3 className="font-bold text-slate-800">Sistema de Alerta Temprana</h3>
+                </div>
+                <p className="text-sm text-slate-600">
+                  Zonas de riesgo identificadas con código de colores para proteger la salud pública y el ecosistema.
+                </p>
+              </div>
+              
+              <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                    <Target className="w-5 h-5 text-green-600" />
+                  </div>
+                  <h3 className="font-bold text-slate-800">Proyectos de Restauración</h3>
+                </div>
+                <p className="text-sm text-slate-600">
+                  Iniciativas activas de universidades, ONGs y gobierno trabajando en la recuperación de la cuenca.
+                </p>
+              </div>
+              
+              <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-[#9b2247]/10 rounded-xl flex items-center justify-center">
+                    <MessageCircle className="w-5 h-5 text-[#9b2247]" />
+                  </div>
+                  <h3 className="font-bold text-slate-800">Ciencia Ciudadana</h3>
+                </div>
+                <p className="text-sm text-slate-600">
+                  Testimonios de la comunidad y datos de sensores IoT que conectan la narrativa científica con la social.
+                </p>
+              </div>
             </div>
           </div>
         </div>
