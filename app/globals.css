@@ -97,3 +97,12 @@ body {
 .bg-charcoal { background-color: var(--color-charcoal); }
 .border-primary { border-color: var(--color-teal); }
 .border-accent { border-color: var(--color-gold); }
+
+/* Logo styles - 2025/2026 UX Standards */
+.logo-hover {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-hover:hover {
+  transform: scale(1.05);
+}

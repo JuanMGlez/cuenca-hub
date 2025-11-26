@@ -5,6 +5,7 @@ import { ArrowLeft, Mail, Lock } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import Logo from '@/components/Logo';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -62,6 +63,9 @@ export default function Login() {
       <div className="py-12 px-6">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
+            <div className="flex justify-center mb-6">
+              <Logo variant="auth" showText={false} />
+            </div>
             <h1 className="text-3xl font-bold text-foreground mb-4">Iniciar Sesión</h1>
             <p className="text-lg text-foreground">Ingresa a tu cuenta para continuar colaborando</p>
           </div>
