@@ -2,6 +2,9 @@
 
 import { Play, Download, Share2, Eye, Heart, MessageCircle, ArrowLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+const MapaCuenca = dynamic(() => import('../../components/MapaCuenca'), { ssr: false });
 
 export default function ComunicacionSocial() {
   return (
@@ -20,8 +23,18 @@ export default function ComunicacionSocial() {
       {/* Hero Video Inmersivo */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-charcoal"></div>
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-        
+        <video
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        >
+          <source src="/promoHistoria.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/80"></div>
+
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
             Historias que
@@ -30,23 +43,6 @@ export default function ComunicacionSocial() {
           <p className="text-2xl mb-12 text-cream opacity-90 max-w-2xl mx-auto">
             Conoce las estrategias científicas y tecnológicas que están transformando la cuenca
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <button className="group flex items-center space-x-3 bg-charcoal bg-opacity-80 backdrop-blur-md px-8 py-4 rounded-full text-cream font-semibold hover:bg-opacity-90 transition-all">
-              <Play className="w-6 h-6 group-hover:scale-110 transition-transform" />
-              <span>Ver Documental Principal</span>
-            </button>
-            <div className="flex items-center space-x-6 text-cream text-sm">
-              <div className="flex items-center space-x-2">
-                <Eye className="w-4 h-4" />
-                <span>2.3M visualizaciones</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Heart className="w-4 h-4" />
-                <span>45K</span>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -54,10 +50,13 @@ export default function ComunicacionSocial() {
       <section className="py-24 px-6 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
+
             <h2 className="text-4xl font-bold text-foreground mb-6">Voces de la Comunidad</h2>
+
             <p className="text-lg text-foreground max-w-2xl mx-auto">Testimonios reales de quienes viven y trabajan por la cuenca</p>
+
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
               { name: "Dra. Elena Martínez", role: "Hidroquímica", location: "COMECyT", views: "267K" },
@@ -86,54 +85,26 @@ export default function ComunicacionSocial() {
         </div>
       </section>
 
-      {/* Infografías Interactivas */}
+      {/* Infografía Interactiva del Mapa */}
       <section className="py-24 px-6 bg-charcoal">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-4xl font-bold text-cream mb-6">Datos que Impactan</h2>
-            <p className="text-lg text-cream opacity-90 max-w-2xl mx-auto">Infografías interactivas que hacen visible el cambio</p>
+            <h2 className="text-4xl font-bold text-cream mb-6">Cuenca Lerma-Chapala-Santiago</h2>
+            <p className="text-lg text-cream opacity-90 max-w-2xl mx-auto">Explora las tres zonas críticas de la cuenca</p>
           </div>
-          
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              {[
-                { title: "Calidad del Agua 2025", desc: "Mejoras documentadas en 15 municipios", color: "bg-primary" },
-                { title: "Reforestación Comunitaria", desc: "50,000 árboles plantados por voluntarios", color: "bg-accent" },
-                { title: "Especies Recuperadas", desc: "12 especies nativas en proceso de restauración", color: "bg-secondary" }
-              ].map((item, index) => (
-                <div key={index} className="flex items-center space-x-4 p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                  <div className={`w-16 h-16 ${item.color} rounded-xl flex items-center justify-center`}>
-                    <ChevronRight className="w-8 h-8 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-charcoal text-lg">{item.title}</h3>
-                    <p className="text-charcoal opacity-70">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            <div className="bg-white rounded-2xl p-8 shadow-sm">
-              <div className="aspect-square bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center text-white text-center">
-                <div>
-                  <div className="text-4xl font-bold mb-2">85%</div>
-                  <div className="text-cream">Mejora en calidad del agua</div>
-                  <div className="text-sm text-cream opacity-75 mt-2">Últimos 3 años</div>
-                </div>
-              </div>
-            </div>
-          </div>
+
+          <MapaCuenca />
         </div>
       </section>
 
       {/* Campañas Digitales */}
-      <section className="py-24 px-6" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)'}}>
+      <section className="py-24 px-6" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)' }}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-4xl font-bold text-foreground mb-6">Campañas Activas</h2>
             <p className="text-lg text-foreground max-w-2xl mx-auto">Únete a las iniciativas que están marcando la diferencia</p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
               { title: "#CienciaParaLaCuenca", engagement: "1.8M", platform: "Todas las redes" },
