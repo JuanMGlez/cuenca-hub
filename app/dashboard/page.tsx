@@ -24,6 +24,7 @@ interface UserProfile {
   organizacion?: string;
   sector?: string;
   area_interes?: string;
+  avatar_url?: string;
 }
 
 export default function Dashboard() {
@@ -35,12 +36,12 @@ export default function Dashboard() {
   useEffect(() => {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         router.push('/login');
         return;
       }
-      
+
       // Obtener perfil del usuario
       const { data: profileData, error } = await supabase
         .from('users')
@@ -53,7 +54,7 @@ export default function Dashboard() {
       } else {
         setProfile(profileData);
       }
-      
+
       setUser(user);
       setLoading(false);
     };
@@ -110,12 +111,16 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               {/* User Avatar & Info */}
-              <div className="flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2 border border-slate-200/60">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
-                  <UserIcon className="w-4 h-4 text-primary" />
+              <Link href="/dashboard/profile" className="flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2 border border-slate-200/60 hover:bg-white/80 transition-all cursor-pointer">
+                <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center overflow-hidden">
+                  {profile?.avatar_url ? (
+                    <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    <UserIcon className="w-4 h-4 text-primary" />
+                  )}
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-medium text-foreground">
@@ -128,8 +133,8 @@ export default function Dashboard() {
                     {profile?.tipo_usuario === 'organizacional' && 'Organizacional'}
                   </p>
                 </div>
-              </div>
-              
+              </Link>
+
               <button
                 onClick={handleLogout}
                 className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 group"
@@ -159,35 +164,38 @@ export default function Dashboard() {
                       <span className="text-sm text-green-600 font-medium">En línea</span>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center space-x-3 mb-6">
-                    <div className={`px-4 py-2 rounded-full text-sm font-medium ${
-                      profile?.tipo_usuario === 'comunitario' ? 'bg-[#1e5b4f]/10 text-[#1e5b4f]' :
+                    <div className={`px-4 py-2 rounded-full text-sm font-medium ${profile?.tipo_usuario === 'comunitario' ? 'bg-[#1e5b4f]/10 text-[#1e5b4f]' :
                       profile?.tipo_usuario === 'academico' ? 'bg-[#9b2247]/10 text-[#9b2247]' :
-                      profile?.tipo_usuario === 'institucional' ? 'bg-[#161a1d]/10 text-[#161a1d]' :
-                      'bg-[#a57f2c]/10 text-[#a57f2c]'
-                    }`}>
+                        profile?.tipo_usuario === 'institucional' ? 'bg-[#161a1d]/10 text-[#161a1d]' :
+                          'bg-[#a57f2c]/10 text-[#a57f2c]'
+                      }`}>
                       {profile?.tipo_usuario === 'comunitario' && '🌱 Participante Comunitario/Ciudadano'}
                       {profile?.tipo_usuario === 'academico' && '🎓 Investigador/Académico'}
                       {profile?.tipo_usuario === 'institucional' && '🏛️ Representante Institucional/Gubernamental'}
                       {profile?.tipo_usuario === 'organizacional' && '🏢 Representante Organizacional/Sectorial'}
                     </div>
                   </div>
-                  
+
                   <p className="text-lg text-slate-600 leading-relaxed">
                     Gestiona tu participación en la red científica de restauración de cuencas
                   </p>
                 </div>
-                
+
                 {profile && (
-                  <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg min-w-[280px]">
+                  <Link href="/dashboard/profile" className="block bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg min-w-[280px] hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer">
                     <div className="flex items-center space-x-3 mb-4">
-                      <div className="w-10 h-10 bg-gradient-to-br from-[#9b2247]/20 to-[#1e5b4f]/20 rounded-xl flex items-center justify-center">
-                        <UserIcon className="w-5 h-5 text-[#9b2247]" />
+                      <div className="w-10 h-10 bg-gradient-to-br from-[#9b2247]/20 to-[#1e5b4f]/20 rounded-xl flex items-center justify-center overflow-hidden">
+                        {profile.avatar_url ? (
+                          <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                        ) : (
+                          <UserIcon className="w-5 h-5 text-[#9b2247]" />
+                        )}
                       </div>
                       <span className="font-bold text-foreground">Mi Perfil</span>
                     </div>
-                    
+
                     <div className="space-y-3">
                       {profile.institucion && (
                         <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-slate-50 transition-colors">
@@ -212,7 +220,7 @@ export default function Dashboard() {
                         </div>
                       )}
                     </div>
-                  </div>
+                  </Link>
                 )}
               </div>
             </div>
@@ -221,40 +229,40 @@ export default function Dashboard() {
           {/* Modern Stats Cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { 
-                icon: BarChart3, 
-                title: 'Proyectos', 
-                value: '3', 
+              {
+                icon: BarChart3,
+                title: 'Proyectos',
+                value: '3',
                 subtitle: 'Proyectos activos',
                 color: 'from-[#9b2247] to-[#611232]',
                 bgColor: 'bg-[#9b2247]/10',
                 textColor: 'text-[#9b2247]',
                 trend: '+12%'
               },
-              { 
-                icon: Users, 
-                title: 'Colaboradores', 
-                value: '12', 
+              {
+                icon: Users,
+                title: 'Colaboradores',
+                value: '12',
                 subtitle: 'Red de contactos',
                 color: 'from-[#1e5b4f] to-[#002f2a]',
                 bgColor: 'bg-[#1e5b4f]/10',
                 textColor: 'text-[#1e5b4f]',
                 trend: '+8%'
               },
-              { 
-                icon: FileText, 
-                title: 'Publicaciones', 
-                value: '8', 
+              {
+                icon: FileText,
+                title: 'Publicaciones',
+                value: '8',
                 subtitle: 'Artículos compartidos',
                 color: 'from-[#a57f2c] to-[#e6d194]',
                 bgColor: 'bg-[#a57f2c]/10',
                 textColor: 'text-[#a57f2c]',
                 trend: '+24%'
               },
-              { 
-                icon: Settings, 
-                title: 'Configuración', 
-                value: '95%', 
+              {
+                icon: Settings,
+                title: 'Configuración',
+                value: '95%',
                 subtitle: 'Perfil completado',
                 color: 'from-[#161a1d] to-[#98989A]',
                 bgColor: 'bg-[#161a1d]/10',
@@ -272,15 +280,15 @@ export default function Dashboard() {
                       {card.trend}
                     </div>
                   </div>
-                  
+
                   <div className="space-y-1">
                     <h3 className="font-semibold text-slate-700">{card.title}</h3>
                     <p className={`text-3xl font-bold ${card.textColor}`}>{card.value}</p>
                     <p className="text-sm text-slate-500">{card.subtitle}</p>
                   </div>
-                  
+
                   <div className="mt-4 h-1 bg-slate-100 rounded-full overflow-hidden">
-                    <div className={`h-full bg-gradient-to-r ${card.color} rounded-full transition-all duration-1000`} style={{width: `${60 + index * 10}%`}}></div>
+                    <div className={`h-full bg-gradient-to-r ${card.color} rounded-full transition-all duration-1000`} style={{ width: `${60 + index * 10}%` }}></div>
                   </div>
                 </div>
               </div>
@@ -366,33 +374,33 @@ export default function Dashboard() {
                 <h3 className="text-xl font-bold text-foreground">Actividad Reciente</h3>
                 <button className="text-sm text-primary hover:text-primary/80 font-medium">Ver todo</button>
               </div>
-              
+
               <div className="space-y-4">
                 {[
-                  { 
-                    action: 'Nuevo proyecto creado', 
-                    time: 'Hace 2 horas', 
+                  {
+                    action: 'Nuevo proyecto creado',
+                    time: 'Hace 2 horas',
                     type: 'proyecto',
                     icon: '🚀',
                     color: 'bg-[#9b2247]'
                   },
-                  { 
-                    action: 'Colaborador agregado', 
-                    time: 'Hace 1 día', 
+                  {
+                    action: 'Colaborador agregado',
+                    time: 'Hace 1 día',
                     type: 'colaboracion',
                     icon: '👥',
                     color: 'bg-[#1e5b4f]'
                   },
-                  { 
-                    action: 'Datos actualizados', 
-                    time: 'Hace 3 días', 
+                  {
+                    action: 'Datos actualizados',
+                    time: 'Hace 3 días',
                     type: 'datos',
                     icon: '📊',
                     color: 'bg-[#a57f2c]'
                   },
-                  { 
-                    action: 'Publicación compartida', 
-                    time: 'Hace 1 semana', 
+                  {
+                    action: 'Publicación compartida',
+                    time: 'Hace 1 semana',
                     type: 'publicacion',
                     icon: '📄',
                     color: 'bg-[#161a1d]'
@@ -415,7 +423,7 @@ export default function Dashboard() {
             {/* Enhanced Quick Actions */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-xl p-6">
               <h3 className="text-xl font-bold text-foreground mb-6">Accesos Rápidos</h3>
-              
+
               <div className="space-y-3">
                 {[
                   {
