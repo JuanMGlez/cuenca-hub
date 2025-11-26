@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ArrowLeft, User, Mail, Lock, Building, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import Logo from '@/components/Logo';
 
 export default function Registro() {
   const [formData, setFormData] = useState({
@@ -169,6 +170,9 @@ export default function Registro() {
         <div className="max-w-2xl mx-auto">
           {/* Header del formulario */}
           <div className="text-center mb-8">
+            <div className="flex justify-center mb-6">
+              <Logo variant="auth" showText={false} />
+            </div>
             <h1 className="text-3xl font-bold text-foreground mb-4">Crear Nueva Cuenta</h1>
             <p className="text-lg text-foreground">Únete a la red de colaboración para la restauración de la cuenca.</p>
           </div>

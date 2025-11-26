@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { ArrowLeft, Map, Activity, Layers, Zap, Settings, Maximize2, Filter, Download, RefreshCw, AlertTriangle, TrendingUp, Droplets, Thermometer, Wind, Eye } from 'lucide-react';
 import Link from 'next/link';
 import InteractiveMap from '@/components/InteractiveMap';
+import Logo from '@/components/Logo';
 
 export default function Argos() {
   const [activeLayer, setActiveLayer] = useState('hidrologia');
@@ -46,6 +47,7 @@ export default function Argos() {
               <div className="w-px h-6 bg-slate-300"></div>
               
               <div className="flex items-center space-x-3">
+                <Logo variant="dashboard" showText={false} />
                 <div className="w-10 h-10 bg-gradient-to-br from-[#9b2247] to-[#611232] rounded-xl flex items-center justify-center shadow-lg">
                   <Map className="w-5 h-5 text-white" />
                 </div>

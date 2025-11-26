@@ -1,99 +1,153 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* CSS Variables para la paleta oficial */
 :root {
-  /* Paleta de identidad gráfica oficial */
   --color-charcoal: #161a1d;
-  --color-burgundy: #9b2247;
+  --color-primary: #9b2247;
   --color-teal: #1e5b4f;
   --color-gold: #a57f2c;
   --color-neutral: #98989A;
-  --color-dark-burgundy: #611232;
+  --color-burgundy: #611232;
   --color-dark-teal: #002f2a;
   --color-cream: #e6d194;
   
-  /* Variables semánticas */
-  --background: #ffffff;
-  --foreground: var(--color-charcoal);
-  --primary: var(--color-teal);
-  --primary-dark: var(--color-dark-teal);
-  --secondary: var(--color-burgundy);
-  --accent: var(--color-gold);
-  --muted: var(--color-cream);
-  --neutral: var(--color-neutral);
-  --border: #e2e8f0;
+  /* Semantic colors */
+  --color-foreground: var(--color-charcoal);
+  --color-background: #ffffff;
+  --color-accent: var(--color-gold);
+  --color-secondary: var(--color-burgundy);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-light: var(--primary-light);
-  --color-secondary: var(--secondary);
-  --color-accent: var(--accent);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
-}
-
+/* Base styles */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--color-foreground);
+  background-color: var(--color-background);
 }
 
-.gradient-bg {
-  background: linear-gradient(135deg, var(--color-dark-teal) 0%, var(--color-teal) 50%, var(--color-charcoal) 100%);
+/* Logo hover effects - 2025/2026 UX Standards */
+.logo-container {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.logo-container:hover {
+  transform: translateY(-2px);
+}
+
+.logo-container img {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.logo-container:hover img {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+  transform: scale(1.05);
+}
+
+/* Brand consistency utilities */
+.brand-primary {
+  color: var(--color-primary);
+}
+
+.brand-teal {
+  color: var(--color-teal);
+}
+
+.brand-gold {
+  color: var(--color-gold);
+}
+
+/* Modern glassmorphism effects */
 .glass-effect {
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid color-mix(in srgb, var(--color-cream) 20%, transparent);
-  box-shadow: 0 4px 24px color-mix(in srgb, var(--color-charcoal) 8%, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
+/* Button styles */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-burgundy));
+  color: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(155, 34, 71, 0.3);
+}
+
+/* Card hover effects */
 .card-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px color-mix(in srgb, var(--color-charcoal) 15%, transparent);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, var(--color-teal), var(--color-dark-teal));
-  transition: all 0.3s ease;
-  color: white;
+/* Gradient backgrounds */
+.gradient-bg {
+  background: linear-gradient(135deg, var(--color-charcoal) 0%, var(--color-dark-teal) 100%);
 }
 
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--color-teal) 40%, transparent);
-}
-
+/* Government badge */
 .gov-badge {
-  background: linear-gradient(135deg, var(--color-burgundy), var(--color-dark-burgundy));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-burgundy));
   color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-/* Clases utilitarias para colores */
-.text-primary { color: var(--color-teal); }
-.text-secondary { color: var(--color-burgundy); }
-.text-accent { color: var(--color-gold); }
-.text-neutral { color: var(--color-neutral); }
-.text-cream { color: var(--color-cream); }
-.bg-primary { background-color: var(--color-teal); }
-.bg-secondary { background-color: var(--color-burgundy); }
-.bg-dark-teal { background-color: var(--color-dark-teal); }
-.bg-charcoal { background-color: var(--color-charcoal); }
-.border-primary { border-color: var(--color-teal); }
-.border-accent { border-color: var(--color-gold); }
+/* Responsive logo sizing */
+@media (max-width: 768px) {
+  .logo-container img {
+    width: 48px !important;
+    height: 48px !important;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .logo-container,
+  .logo-container img,
+  .card-hover,
+  .btn-primary {
+    transition: none;
+  }
+  
+  .logo-container:hover,
+  .logo-container:hover img,
+  .card-hover:hover,
+  .btn-primary:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .logo-container img {
+    filter: contrast(1.2);
+  }
+}
+
+/* Dark mode preparation */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-foreground: #ffffff;
+    --color-background: var(--color-charcoal);
+  }
+}
+
+/* Print styles */
+@media print {
+  .logo-container img {
+    filter: none !important;
+    transform: none !important;
+  }
+}

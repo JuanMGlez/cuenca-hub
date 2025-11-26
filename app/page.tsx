@@ -3,6 +3,7 @@
 import { BarChart3, Eye, Users, Droplets, MapPin, Shield, Zap, Globe, Target, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import LandingMap from '@/components/LandingMap';
+import Logo from '@/components/Logo';
 
 export default function Home() {
   return (
@@ -22,17 +23,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               {/* Logo section */}
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-16 h-16 bg-primary rounded-lg flex items-center justify-center">
-                    <Droplets className="w-8 h-8 text-white" />
-                  </div>
-                  <div className="border-l-2 border-neutral pl-4">
-                    <div className="text-2xl font-bold text-foreground tracking-tight">Cuenca Hub</div>
-                    <div className="text-sm text-neutral font-medium">Ciencia y Tecnología para la Restauración de Cuencas</div>
-                  </div>
-                </div>
-              </div>
+              <Logo variant="header" />
               
               {/* Navigation */}
               <nav className="hidden lg:flex items-center space-x-2">
@@ -311,12 +302,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background: 'linear-gradient(135deg, var(--color-teal), var(--color-charcoal))'}}>
-                  <Droplets className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-lg font-semibold text-cream">Cuenca Hub</span>
-              </div>
+              <Logo variant="footer" className="mb-4" />
               <p className="text-sm text-neutral">Plataforma tecnológica para el saneamiento y restauración de la cuenca Lerma-Chapala-Santiago.</p>
             </div>
             <div>

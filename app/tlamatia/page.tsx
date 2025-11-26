@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Send, Mic, MicOff, Brain, Sparkles, FileText, Image, BarChart3, Zap, Copy, ThumbsUp, ThumbsDown, RotateCcw, Volume2 } from 'lucide-react';
 import Link from 'next/link';
+import Logo from '@/components/Logo';
 
 interface Message {
   id: string;
@@ -92,6 +93,7 @@ export default function TlamatIA() {
               <div className="w-px h-6 bg-slate-300"></div>
               
               <div className="flex items-center space-x-3">
+                <Logo variant="dashboard" showText={false} />
                 <div className="relative">
                   <div className="w-10 h-10 bg-gradient-to-br from-[#1e5b4f] to-[#002f2a] rounded-xl flex items-center justify-center shadow-lg">
                     <Brain className="w-5 h-5 text-white" />

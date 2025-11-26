@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
 import { LogOut, BarChart3, Users, FileText, Settings, User as UserIcon, Building, MapPin, Map, MessageCircle, Activity, Brain } from 'lucide-react';
 import Link from 'next/link';
+import Logo from '@/components/Logo';
 
 interface UserProfile {
   id: string;
@@ -97,17 +98,13 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-lg">
-                  <BarChart3 className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-xl font-bold text-foreground">Dashboard Científico</h1>
-                  <div className="flex items-center space-x-2">
-                    <div className="gov-badge text-xs">COMECyT</div>
-                    <div className="w-1 h-1 bg-slate-300 rounded-full"></div>
-                    <span className="text-xs text-slate-500">Cuenca Lerma-Chapala-Santiago</span>
-                  </div>
+              <Logo variant="dashboard" />
+              <div>
+                <h1 className="text-xl font-bold text-foreground">Dashboard Científico</h1>
+                <div className="flex items-center space-x-2">
+                  <div className="gov-badge text-xs">COMECyT</div>
+                  <div className="w-1 h-1 bg-slate-300 rounded-full"></div>
+                  <span className="text-xs text-slate-500">Cuenca Lerma-Chapala-Santiago</span>
                 </div>
               </div>
             </div>
