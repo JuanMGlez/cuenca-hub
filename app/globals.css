@@ -1,99 +1,106 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  /* Paleta de identidad gráfica oficial */
-  --color-charcoal: #161a1d;
-  --color-burgundy: #9b2247;
-  --color-teal: #1e5b4f;
-  --color-gold: #a57f2c;
-  --color-neutral: #98989A;
-  --color-dark-burgundy: #611232;
-  --color-dark-teal: #002f2a;
-  --color-cream: #e6d194;
+  /* Color palette */
+  --color-primary: #2563eb;
+  --color-secondary: #7c3aed;
+  --color-accent: #f59e0b;
+  --color-teal: #0d9488;
+  --color-charcoal: #374151;
+  --color-cream: #fef7ed;
+  --color-gold: #d97706;
+  --color-burgundy: #991b1b;
+  --color-neutral: #6b7280;
+  --color-foreground: #111827;
+  --color-dark-teal: #134e4a;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-300;
+  }
   
-  /* Variables semánticas */
-  --background: #ffffff;
-  --foreground: var(--color-charcoal);
-  --primary: var(--color-teal);
-  --primary-dark: var(--color-dark-teal);
-  --secondary: var(--color-burgundy);
-  --accent: var(--color-gold);
-  --muted: var(--color-cream);
-  --neutral: var(--color-neutral);
-  --border: #e2e8f0;
+  .card-hover {
+    @apply hover:shadow-lg hover:-translate-y-1 transition-all duration-300;
+  }
+  
+  .gradient-bg {
+    background: linear-gradient(135deg, var(--color-charcoal) 0%, var(--color-teal) 100%);
+  }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-light: var(--primary-light);
-  --color-secondary: var(--secondary);
-  --color-accent: var(--accent);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
+@layer utilities {
+  .text-primary {
+    color: var(--color-primary);
+  }
+  
+  .text-secondary {
+    color: var(--color-secondary);
+  }
+  
+  .text-accent {
+    color: var(--color-accent);
+  }
+  
+  .text-teal {
+    color: var(--color-teal);
+  }
+  
+  .text-charcoal {
+    color: var(--color-charcoal);
+  }
+  
+  .text-cream {
+    color: var(--color-cream);
+  }
+  
+  .text-neutral {
+    color: var(--color-neutral);
+  }
+  
+  .text-foreground {
+    color: var(--color-foreground);
+  }
+  
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+  
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+  
+  .bg-teal {
+    background-color: var(--color-teal);
+  }
+  
+  .bg-charcoal {
+    background-color: var(--color-charcoal);
+  }
+  
+  .bg-cream {
+    background-color: var(--color-cream);
+  }
+  
+  .bg-dark-teal {
+    background-color: var(--color-dark-teal);
+  }
+  
+  .border-primary {
+    border-color: var(--color-primary);
+  }
+  
+  .border-accent {
+    border-color: var(--color-accent);
+  }
+  
+  .border-neutral {
+    border-color: var(--color-neutral);
+  }
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-}
-
-.gradient-bg {
-  background: linear-gradient(135deg, var(--color-dark-teal) 0%, var(--color-teal) 50%, var(--color-charcoal) 100%);
-}
-
-.glass-effect {
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid color-mix(in srgb, var(--color-cream) 20%, transparent);
-  box-shadow: 0 4px 24px color-mix(in srgb, var(--color-charcoal) 8%, transparent);
-}
-
-.card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px color-mix(in srgb, var(--color-charcoal) 15%, transparent);
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--color-teal), var(--color-dark-teal));
-  transition: all 0.3s ease;
-  color: white;
-}
-
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--color-teal) 40%, transparent);
-}
-
-.gov-badge {
-  background: linear-gradient(135deg, var(--color-burgundy), var(--color-dark-burgundy));
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* Clases utilitarias para colores */
-.text-primary { color: var(--color-teal); }
-.text-secondary { color: var(--color-burgundy); }
-.text-accent { color: var(--color-gold); }
-.text-neutral { color: var(--color-neutral); }
-.text-cream { color: var(--color-cream); }
-.bg-primary { background-color: var(--color-teal); }
-.bg-secondary { background-color: var(--color-burgundy); }
-.bg-dark-teal { background-color: var(--color-dark-teal); }
-.bg-charcoal { background-color: var(--color-charcoal); }
-.border-primary { border-color: var(--color-teal); }
-.border-accent { border-color: var(--color-gold); }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Polygon, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -53,10 +53,12 @@ const zonas = {
 function MapController({ activeZone }: { activeZone: string | null }) {
   const map = useMap();
   
-  if (activeZone && activeZone in zonas) {
-    const zona = zonas[activeZone as keyof typeof zonas];
-    map.flyTo(zona.center, zona.zoom);
-  }
+  useEffect(() => {
+    if (activeZone && activeZone in zonas) {
+      const zona = zonas[activeZone as keyof typeof zonas];
+      map.flyTo(zona.center, zona.zoom);
+    }
+  }, [activeZone, map]);
   
   return null;
 }
