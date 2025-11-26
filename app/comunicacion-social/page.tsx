@@ -37,11 +37,10 @@ export default function ComunicacionSocial() {
 
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
-            Historias que
-            <span className="block text-cream">Transforman</span>
+            Historias de Cambio
           </h1>
           <p className="text-2xl mb-12 text-cream opacity-90 max-w-2xl mx-auto">
-            Conoce las estrategias científicas y tecnológicas que están transformando la cuenca
+            Descubre cómo la ciencia y la tecnología están recuperando nuestra cuenca.
           </p>
         </div>
       </section>
@@ -56,6 +55,7 @@ export default function ComunicacionSocial() {
             <p className="text-lg text-foreground max-w-2xl mx-auto">Testimonios reales de quienes viven y trabajan por la cuenca</p>
 
           </div>
+
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
@@ -101,9 +101,10 @@ export default function ComunicacionSocial() {
       <section className="py-24 px-6" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)' }}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-4xl font-bold text-foreground mb-6">Campañas Activas</h2>
-            <p className="text-lg text-foreground max-w-2xl mx-auto">Únete a las iniciativas que están marcando la diferencia</p>
+            <h2 className="text-4xl font-bold text-foreground mb-6">Súmate a la Acción</h2>
+            <p className="text-lg text-foreground max-w-2xl mx-auto">Participa en las iniciativas que están transformando nuestra realidad.</p>
           </div>
+
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
@@ -129,9 +130,9 @@ export default function ComunicacionSocial() {
       {/* CTA Final */}
       <section className="py-20 px-6 bg-charcoal text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6 text-cream">Sé Parte del Cambio</h2>
+          <h2 className="text-3xl font-bold mb-6 text-cream">Tu Voz Importa</h2>
           <p className="text-xl mb-8 text-cream opacity-90">
-            Comparte tu historia, descarga recursos o colabora en nuestras campañas
+            Comparte tu experiencia, accede a recursos y colabora con nosotros.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <button className="btn-primary px-8 py-4 rounded-xl font-semibold shadow-lg flex items-center space-x-2">
