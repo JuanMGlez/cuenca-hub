@@ -163,15 +163,19 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             {/* Video principal */}
             <div className="relative">
-              <div className="aspect-video bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center relative overflow-hidden group cursor-pointer card-hover">
-                <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                <div className="relative z-10 text-center text-white">
-                  <div className="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 mx-auto backdrop-blur-sm">
-                    <div className="w-0 h-0 border-l-8 border-l-white border-t-6 border-t-transparent border-b-6 border-b-transparent ml-1"></div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-2">Voces del Cambio</h3>
-                  <p className="text-cream opacity-90">Testimonios de quienes están haciendo la diferencia</p>
-                </div>
+              <div className="aspect-video rounded-2xl overflow-hidden shadow-lg">
+                <iframe 
+                  src="https://www.youtube.com/embed/YSfxNTcpAx8?si=GXyxUC-S1gXfPNfI" 
+                  title="Voces del Cambio"
+                  className="w-full h-full"
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <div className="mt-4 text-center">
+                <h3 className="text-2xl font-bold mb-2 text-foreground">Voces del Cambio</h3>
+                <p className="text-neutral">Conoce las iniciativas de restauración y conservación en nuestra cuenca</p>
               </div>
             </div>
             
@@ -192,7 +196,7 @@ export default function Home() {
                   <BarChart3 className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-foreground mb-2">Infografías Interactivas</h4>
+                  <h4 className="font-bold text-foreground mb-2">Mapa Cuenca Lerma-Chapala-Santiago</h4>
                   <p className="text-neutral text-sm">Datos ambientales visualizados para fácil comprensión</p>
                 </div>
               </div>
