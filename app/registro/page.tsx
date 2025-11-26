@@ -34,7 +34,7 @@ export default function Registro() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden');
       setLoading(false);
@@ -50,10 +50,10 @@ export default function Registro() {
     try {
       console.log('=== REGISTRO DEFINITIVO ===');
       console.log('FormData:', JSON.stringify(formData, null, 2));
-      
+
       // PASO 1: Crear usuario en auth (sin metadata para evitar triggers)
       console.log('Paso 1: Creando usuario auth...');
-      
+
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password
@@ -74,10 +74,10 @@ export default function Registro() {
       }
 
       console.log('✅ Usuario auth creado:', authData.user.id);
-      
+
       // PASO 2: Crear perfil en tabla users
       console.log('Paso 2: Creando perfil de usuario...');
-      
+
       const { data: profileData, error: insertError } = await supabase
         .from('users')
         .insert({
@@ -108,11 +108,11 @@ export default function Registro() {
       }
 
       console.log('✅ Perfil creado exitosamente:', profileData);
-      
+
       setSuccess(true);
       setError('');
       console.log('=== REGISTRO COMPLETADO ===');
-      
+
     } catch (error: unknown) {
       console.error('❌ Error no controlado:', error);
       const errorMessage = error instanceof Error ? error.message : 'Error en el registro';
@@ -125,10 +125,10 @@ export default function Registro() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    
+
     setFormData(prev => {
       const newData = { ...prev, [name]: value };
-      
+
       // Limpiar campos específicos al cambiar tipo de usuario
       if (name === 'tipoUsuario') {
         return {
@@ -144,10 +144,10 @@ export default function Registro() {
           sector: ''
         };
       }
-      
+
       return newData;
     });
-    
+
     // Limpiar errores al escribir
     if (error) setError('');
   };
@@ -159,9 +159,9 @@ export default function Registro() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3 text-foreground hover:text-primary transition-colors">
             <ArrowLeft className="w-5 h-5" />
-            <span className="font-semibold">Volver a Cuenca Hub</span>
+            <span className="font-semibold">Regresar al Inicio</span>
           </Link>
-          <div className="text-sm text-neutral">Registro Científico</div>
+          <div className="text-sm text-neutral">Registro a la Plataforma</div>
         </div>
       </header>
 
@@ -169,8 +169,8 @@ export default function Registro() {
         <div className="max-w-2xl mx-auto">
           {/* Header del formulario */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-4">Registro Científico</h1>
-            <p className="text-lg text-foreground">Únete a la red de investigación transdisciplinaria del COMECyT</p>
+            <h1 className="text-3xl font-bold text-foreground mb-4">Crear Nueva Cuenta</h1>
+            <p className="text-lg text-foreground">Únete a la red de colaboración para la restauración de la cuenca.</p>
           </div>
 
           {/* Formulario */}
@@ -181,7 +181,7 @@ export default function Registro() {
                   {error}
                 </div>
               )}
-              
+
               {success && (
                 <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
                   ¡Registro exitoso! Revisa tu email para confirmar tu cuenta.
@@ -190,13 +190,13 @@ export default function Registro() {
 
               {/* Tipo de usuario */}
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-3">Tipo de Usuario <span className="text-red-500">*</span></label>
+                <label className="block text-sm font-semibold text-foreground mb-3">Perfil de Colaboración <span className="text-red-500">*</span></label>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { value: 'comunitario', label: 'Comunitario/Ciudadano' },
-                    { value: 'academico', label: 'Académico/Investigador' },
-                    { value: 'institucional', label: 'Institucional/Gubernamental' },
-                    { value: 'organizacional', label: 'Organizacional/Sectorial' }
+                    { value: 'comunitario', label: 'Ciudadanía / Comunidad' },
+                    { value: 'academico', label: 'Academia / Investigación' },
+                    { value: 'institucional', label: 'Gobierno / Institución' },
+                    { value: 'organizacional', label: 'Organización / Sector Privado' }
                   ].map((tipo) => (
                     <label key={tipo.value} className="relative">
                       <input
@@ -207,11 +207,10 @@ export default function Registro() {
                         onChange={handleChange}
                         className="sr-only"
                       />
-                      <div className={`p-3 text-center rounded-lg border-2 cursor-pointer transition-all ${
-                        formData.tipoUsuario === tipo.value 
-                          ? 'border-primary bg-primary text-white' 
+                      <div className={`p-3 text-center rounded-lg border-2 cursor-pointer transition-all ${formData.tipoUsuario === tipo.value
+                          ? 'border-primary bg-primary text-white'
                           : 'border-neutral border-opacity-20 hover:border-primary'
-                      }`}>
+                        }`}>
                         <span className="text-sm font-medium">{tipo.label}</span>
                       </div>
                     </label>
@@ -278,13 +277,12 @@ export default function Registro() {
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none transition-colors ${
-                        formData.password && formData.password.length < 8
+                      className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none transition-colors ${formData.password && formData.password.length < 8
                           ? 'border-red-300 focus:border-red-500'
                           : formData.password && formData.password.length >= 8
-                          ? 'border-green-300 focus:border-green-500'
-                          : 'border-neutral border-opacity-20 focus:border-primary'
-                      }`}
+                            ? 'border-green-300 focus:border-green-500'
+                            : 'border-neutral border-opacity-20 focus:border-primary'
+                        }`}
                       placeholder="Mínimo 8 caracteres"
                       required
                     />
@@ -302,13 +300,12 @@ export default function Registro() {
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none transition-colors ${
-                        formData.confirmPassword && formData.password !== formData.confirmPassword
+                      className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none transition-colors ${formData.confirmPassword && formData.password !== formData.confirmPassword
                           ? 'border-red-300 focus:border-red-500'
                           : formData.confirmPassword && formData.password === formData.confirmPassword && formData.password
-                          ? 'border-green-300 focus:border-green-500'
-                          : 'border-neutral border-opacity-20 focus:border-primary'
-                      }`}
+                            ? 'border-green-300 focus:border-green-500'
+                            : 'border-neutral border-opacity-20 focus:border-primary'
+                        }`}
                       placeholder="Confirma tu contraseña"
                       required
                     />
@@ -496,7 +493,7 @@ export default function Registro() {
                 disabled={loading}
                 className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Registrando...' : 'Crear Cuenta Científica'}
+                {loading ? 'Registrando...' : 'Completar Registro'}
               </button>
 
               {/* Link a login */}

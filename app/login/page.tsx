@@ -53,7 +53,7 @@ export default function Login() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3 text-foreground hover:text-primary transition-colors">
             <ArrowLeft className="w-5 h-5" />
-            <span className="font-semibold">Volver a Cuenca Hub</span>
+            <span className="font-semibold">Regresar al Inicio</span>
           </Link>
           <div className="text-sm text-neutral">Iniciar Sesión</div>
         </div>
@@ -63,7 +63,7 @@ export default function Login() {
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-foreground mb-4">Iniciar Sesión</h1>
-            <p className="text-lg text-foreground">Accede a la plataforma científica</p>
+            <p className="text-lg text-foreground">Ingresa a tu cuenta para continuar colaborando</p>
           </div>
 
           <div className="bg-white rounded-2xl shadow-lg p-8">
@@ -73,7 +73,7 @@ export default function Login() {
                   {error}
                 </div>
               )}
-              
+
               {success && (
                 <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
                   ¡Inicio de sesión exitoso! Redirigiendo...
@@ -81,7 +81,7 @@ export default function Login() {
               )}
 
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-2">Correo Electrónico</label>
+                <label className="block text-sm font-semibold text-foreground mb-2">Correo Institucional o Personal</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 w-5 h-5 text-neutral" />
                   <input
@@ -97,7 +97,7 @@ export default function Login() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-2">Contraseña</label>
+                <label className="block text-sm font-semibold text-foreground mb-2">Tu Contraseña</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 w-5 h-5 text-neutral" />
                   <input
@@ -115,11 +115,10 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={loading || success}
-                className={`w-full py-4 rounded-xl font-semibold shadow-lg transition-all duration-300 ${
-                  success 
-                    ? 'bg-green-600 text-white' 
+                className={`w-full py-4 rounded-xl font-semibold shadow-lg transition-all duration-300 ${success
+                    ? 'bg-green-600 text-white'
                     : 'btn-primary hover:shadow-xl hover:-translate-y-0.5'
-                } disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
+                  } disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
               >
                 {success ? '✓ ¡Exitoso!' : loading ? (
                   <div className="flex items-center justify-center space-x-2">
@@ -132,9 +131,9 @@ export default function Login() {
 
             <div className="mt-6 text-center">
               <p className="text-neutral">
-                ¿No tienes cuenta? 
+                ¿Aún no tienes cuenta?
                 <Link href="/registro" className="text-primary hover:underline ml-1 font-semibold">
-                  Regístrate aquí
+                  Únete aquí
                 </Link>
               </p>
             </div>

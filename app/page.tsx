@@ -28,7 +28,7 @@ export default function Home() {
                   </div>
                   <div className="border-l-2 border-neutral pl-4">
                     <div className="text-2xl font-bold text-foreground tracking-tight">Cuenca Hub</div>
-                    <div className="text-sm text-neutral font-medium">Estrategias Científicas para Restauración de Cuencas</div>
+                    <div className="text-sm text-neutral font-medium">Ciencia y Tecnología para la Restauración de Cuencas</div>
                   </div>
                 </div>
               </div>
@@ -75,15 +75,14 @@ export default function Home() {
               <span className="block text-primary">Cuenca Lerma-Chapala-Santiago</span>
             </h1>
             <p className="text-xl mb-12 leading-relaxed max-w-3xl mx-auto font-medium text-foreground">
-              Estrategias científicas y tecnológicas para visibilizar y coordinar 
-              el trabajo transdisciplinario hacia la restauración de la cuenca.
+              Uniendo ciencia, tecnología y comunidad para la recuperación integral de la cuenca Lerma-Chapala-Santiago.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/login" className="inline-block btn-primary px-10 py-4 rounded-lg font-semibold shadow-lg text-sm uppercase tracking-wide">
-                Acceder a la Plataforma
+                Ingresar a la Plataforma
               </Link>
               <button className="border-2 border-primary text-primary px-10 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg text-sm uppercase tracking-wide hover:bg-primary hover:bg-opacity-5">
-                Consultar Datos Públicos
+                Explorar Datos Abiertos
               </button>
             </div>
           </div>
@@ -104,8 +103,8 @@ export default function Home() {
               <div className="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-6">
                 <BarChart3 className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Visibilización Científica</h3>
-              <p className="leading-relaxed text-foreground">Plataformas digitales para mostrar investigación y avances científicos.</p>
+              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Ciencia Visible</h3>
+              <p className="leading-relaxed text-foreground">Difusión clara y accesible de los avances científicos y su impacto real.</p>
             </div>
 
             {/* Monitoreo */}
@@ -113,8 +112,8 @@ export default function Home() {
               <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-6" style={{backgroundColor: 'var(--color-gold)'}}>
                 <Shield className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Coordinación Tecnológica</h3>
-              <p className="leading-relaxed text-foreground">Herramientas digitales para integrar equipos multidisciplinarios.</p>
+              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Tecnología que Une</h3>
+              <p className="leading-relaxed text-foreground">Herramientas avanzadas para conectar expertos y coordinar esfuerzos.</p>
             </div>
 
             {/* Colaboración */}
@@ -122,8 +121,8 @@ export default function Home() {
               <div className="w-16 h-16 bg-secondary rounded-lg flex items-center justify-center mb-6">
                 <Globe className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Trabajo Transdisciplinario</h3>
-              <p className="leading-relaxed text-foreground">Red colaborativa de investigadores, instituciones y comunidades.</p>
+              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Colaboración Total</h3>
+              <p className="leading-relaxed text-foreground">Una red viva de investigadores, instituciones y comunidades trabajando juntos.</p>
             </div>
           </div>
         </div>
@@ -135,11 +134,11 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold mb-2 text-cream">3</div>
-              <div className="text-cream opacity-80">Estados Conectados</div>
+              <div className="text-cream opacity-80">Estados Unidos por la Cuenca</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2 text-cream">50+</div>
-              <div className="text-cream opacity-80">Municipios Participantes</div>
+              <div className="text-cream opacity-80">Municipios Activos</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2 text-cream">24/7</div>
@@ -157,8 +156,8 @@ export default function Home() {
       <section className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-6">Conectando con la Cuenca</h2>
-            <p className="text-xl text-neutral max-w-3xl mx-auto">Narrativas que sensibilizan y movilizan a la ciudadanía hacia la restauración ambiental</p>
+            <h2 className="text-4xl font-bold text-foreground mb-6">Historias de la Cuenca</h2>
+            <p className="text-xl text-neutral max-w-3xl mx-auto">Relatos que inspiran y movilizan hacia la recuperación de nuestro entorno.</p>
           </div>
           
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
@@ -170,8 +169,8 @@ export default function Home() {
                   <div className="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 mx-auto backdrop-blur-sm">
                     <div className="w-0 h-0 border-l-8 border-l-white border-t-6 border-t-transparent border-b-6 border-b-transparent ml-1"></div>
                   </div>
-                  <h3 className="text-2xl font-bold mb-2">Voces de la Cuenca</h3>
-                  <p className="text-cream opacity-90">Historias de comunidades que transforman su entorno</p>
+                  <h3 className="text-2xl font-bold mb-2">Voces del Cambio</h3>
+                  <p className="text-cream opacity-90">Testimonios de quienes están haciendo la diferencia</p>
                 </div>
               </div>
             </div>
@@ -222,16 +221,16 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 px-6 text-white bg-charcoal">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6 text-cream">Únete al Esfuerzo de Restauración</h2>
+          <h2 className="text-3xl font-bold mb-6 text-cream">Sé Parte de la Solución</h2>
           <p className="text-xl mb-8 text-neutral">
-            Forma parte de la red de colaboración para el saneamiento de la cuenca.
+            Súmate a la red de colaboración y contribuye al saneamiento de nuestra cuenca.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/registro" className="inline-block btn-primary px-8 py-4 rounded-xl font-semibold shadow-lg">
-              Registrar Institución
+              Registrar Participación
             </Link>
             <Link href="/login" className="inline-block border-2 border-neutral text-neutral px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:bg-neutral hover:bg-opacity-10">
-              Acceder como Ciudadano
+              Acceso Ciudadano
             </Link>
           </div>
         </div>
