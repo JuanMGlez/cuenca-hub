@@ -10,10 +10,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.84.0",
-<<<<<<< HEAD
-=======
     "@types/leaflet": "^1.9.21",
->>>>>>> 14152a770d9f8974fed9ae98c9867294983aca4d
     "leaflet": "^1.9.4",
     "lucide-react": "^0.554.0",
     "next": "16.0.4",
@@ -23,7 +20,6 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/leaflet": "^1.9.21",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
