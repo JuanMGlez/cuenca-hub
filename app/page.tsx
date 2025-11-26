@@ -11,8 +11,8 @@ export default function Home() {
         {/* Top institutional bar */}
         <div className="bg-charcoal py-2">
           <div className="max-w-7xl mx-auto px-6 flex justify-between items-center text-xs text-cream">
-            <span>Gobierno de México | Tecnológico Nacional de México</span>
-            <span>gob.mx</span>
+            <span>Gobierno del Estado de México | Consejo Mexiquense de Ciencia y Tecnología</span>
+            <span>comecyt.edomex.gob.mx</span>
           </div>
         </div>
         
@@ -28,21 +28,34 @@ export default function Home() {
                   </div>
                   <div className="border-l-2 border-neutral pl-4">
                     <div className="text-2xl font-bold text-foreground tracking-tight">Cuenca Hub</div>
-                    <div className="text-sm text-neutral font-medium">Sistema Nacional de Monitoreo Hídrico</div>
+                    <div className="text-sm text-neutral font-medium">Estrategias Científicas para Restauración de Cuencas</div>
                   </div>
                 </div>
               </div>
               
               {/* Navigation */}
-              <nav className="hidden lg:flex items-center space-x-8">
-                <a href="#inicio" className="px-4 py-2 text-foreground hover:bg-primary hover:bg-opacity-5 rounded-md transition-all font-medium">Inicio</a>
-                <a href="#plataforma" className="px-4 py-2 text-foreground hover:bg-primary hover:bg-opacity-5 rounded-md transition-all font-medium">Plataforma</a>
-                <a href="#datos" className="px-4 py-2 text-foreground hover:bg-primary hover:bg-opacity-5 rounded-md transition-all font-medium">Datos Abiertos</a>
-                <a href="#colaboracion" className="px-4 py-2 text-foreground hover:bg-primary hover:bg-opacity-5 rounded-md transition-all font-medium">Colaboración</a>
-                <div className="w-px h-6 bg-neutral opacity-30"></div>
-                <button className="bg-primary text-white px-6 py-2 rounded-md font-semibold hover:bg-opacity-90 transition-all">
-                  Acceso Institucional
-                </button>
+              <nav className="hidden lg:flex items-center space-x-2">
+                <a href="#inicio" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
+                  <span>Inicio</span>
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></div>
+                </a>
+                <a href="#plataforma" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
+                  <span>Plataforma</span>
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></div>
+                </a>
+                <a href="#datos" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
+                  <span>Datos Abiertos</span>
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></div>
+                </a>
+                <a href="#colaboracion" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
+                  <span>Colaboración</span>
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></div>
+                </a>
+                <div className="ml-6 pl-6 border-l border-neutral border-opacity-20">
+                  <button className="bg-primary text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                    Acceso Institucional
+                  </button>
+                </div>
               </nav>
             </div>
           </div>
@@ -62,8 +75,8 @@ export default function Home() {
               <span className="block text-primary">Cuenca Lerma-Chapala-Santiago</span>
             </h1>
             <p className="text-xl mb-12 leading-relaxed max-w-3xl mx-auto font-medium text-foreground">
-              Sistema integral de monitoreo, coordinación y gestión para la restauración 
-              de la cuenca hídrica más estratégica del país.
+              Estrategias científicas y tecnológicas para visibilizar y coordinar 
+              el trabajo transdisciplinario hacia la restauración de la cuenca.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="btn-primary px-10 py-4 rounded-lg font-semibold shadow-lg text-sm uppercase tracking-wide">
@@ -91,8 +104,8 @@ export default function Home() {
               <div className="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-6">
                 <BarChart3 className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Visualización</h3>
-              <p className="leading-relaxed text-foreground">Mapas interactivos e indicadores ambientales en tiempo real.</p>
+              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Visibilización Científica</h3>
+              <p className="leading-relaxed text-foreground">Plataformas digitales para mostrar investigación y avances científicos.</p>
             </div>
 
             {/* Monitoreo */}
@@ -100,8 +113,8 @@ export default function Home() {
               <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-6" style={{backgroundColor: 'var(--color-gold)'}}>
                 <Shield className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Monitoreo</h3>
-              <p className="leading-relaxed text-foreground">Sensores IoT, alertas tempranas y reportes ciudadanos.</p>
+              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Coordinación Tecnológica</h3>
+              <p className="leading-relaxed text-foreground">Herramientas digitales para integrar equipos multidisciplinarios.</p>
             </div>
 
             {/* Colaboración */}
@@ -109,8 +122,8 @@ export default function Home() {
               <div className="w-16 h-16 bg-secondary rounded-lg flex items-center justify-center mb-6">
                 <Globe className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Colaboración</h3>
-              <p className="leading-relaxed text-foreground">Coordinación entre instituciones, gobiernos y organizaciones.</p>
+              <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Trabajo Transdisciplinario</h3>
+              <p className="leading-relaxed text-foreground">Red colaborativa de investigadores, instituciones y comunidades.</p>
             </div>
           </div>
         </div>
