@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
-import { LogOut, BarChart3, Users, FileText, Settings, User as UserIcon, Building, MapPin } from 'lucide-react';
+import { LogOut, BarChart3, Users, FileText, Settings, User as UserIcon, Building, MapPin, Map, MessageCircle, Activity, Brain } from 'lucide-react';
+import Link from 'next/link';
 
 interface UserProfile {
   id: string;
@@ -286,6 +287,77 @@ export default function Dashboard() {
             ))}
           </div>
 
+          {/* Tools Section */}
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            {/* Argos Tool */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-xl p-6 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+              <div className="flex items-center space-x-4 mb-6">
+                <div className="w-14 h-14 bg-gradient-to-br from-[#9b2247] to-[#611232] rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Map className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-[#9b2247] group-hover:text-[#611232] transition-colors">Argos</h3>
+                  <p className="text-sm text-slate-600">Sistema de Monitoreo Activo</p>
+                </div>
+              </div>
+              
+              <div className="space-y-3 mb-6">
+                <div className="flex items-center space-x-3 text-sm">
+                  <Activity className="w-4 h-4 text-[#9b2247]" />
+                  <span className="text-slate-700">Mapas interactivos en tiempo real</span>
+                </div>
+                <div className="flex items-center space-x-3 text-sm">
+                  <BarChart3 className="w-4 h-4 text-[#9b2247]" />
+                  <span className="text-slate-700">Visualización de datos dinámicos</span>
+                </div>
+                <div className="flex items-center space-x-3 text-sm">
+                  <MapPin className="w-4 h-4 text-[#9b2247]" />
+                  <span className="text-slate-700">Monitoreo de cuencas hidrográficas</span>
+                </div>
+              </div>
+              
+              <Link href="/argos" className="block w-full">
+                <button className="w-full bg-gradient-to-r from-[#9b2247] to-[#611232] text-white py-3 px-4 rounded-xl font-medium hover:shadow-lg transition-all duration-200 group-hover:scale-105">
+                  Abrir Argos
+                </button>
+              </Link>
+            </div>
+
+            {/* TlamatIA Tool */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-xl p-6 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+              <div className="flex items-center space-x-4 mb-6">
+                <div className="w-14 h-14 bg-gradient-to-br from-[#1e5b4f] to-[#002f2a] rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Brain className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-[#1e5b4f] group-hover:text-[#002f2a] transition-colors">TlamatIA</h3>
+                  <p className="text-sm text-slate-600">Agente Conversacional Inteligente</p>
+                </div>
+              </div>
+              
+              <div className="space-y-3 mb-6">
+                <div className="flex items-center space-x-3 text-sm">
+                  <MessageCircle className="w-4 h-4 text-[#1e5b4f]" />
+                  <span className="text-slate-700">Consultas científicas especializadas</span>
+                </div>
+                <div className="flex items-center space-x-3 text-sm">
+                  <FileText className="w-4 h-4 text-[#1e5b4f]" />
+                  <span className="text-slate-700">Base de conocimiento amplia</span>
+                </div>
+                <div className="flex items-center space-x-3 text-sm">
+                  <Users className="w-4 h-4 text-[#1e5b4f]" />
+                  <span className="text-slate-700">Asistencia para investigadores</span>
+                </div>
+              </div>
+              
+              <Link href="/tlamatia" className="block w-full">
+                <button className="w-full bg-gradient-to-r from-[#1e5b4f] to-[#002f2a] text-white py-3 px-4 rounded-xl font-medium hover:shadow-lg transition-all duration-200 group-hover:scale-105">
+                  Chatear con TlamatIA
+                </button>
+              </Link>
+            </div>
+          </div>
+
           {/* Modern Content Grid */}
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Enhanced Activity Feed */}
@@ -347,21 +419,25 @@ export default function Dashboard() {
               <div className="space-y-3">
                 {[
                   {
+                    title: 'Argos - Monitoreo',
+                    subtitle: 'Sistema de monitoreo activo',
+                    icon: '🗺️',
+                    color: 'from-[#9b2247] to-[#611232]',
+                    tool: 'argos',
+                    href: '/argos'
+                  },
+                  {
+                    title: 'TlamatIA',
+                    subtitle: 'Agente conversacional inteligente',
+                    icon: '🧠',
+                    color: 'from-[#1e5b4f] to-[#002f2a]',
+                    tool: 'tlamatia',
+                    href: '/tlamatia'
+                  },
+                  {
                     title: 'Crear Proyecto',
                     subtitle: 'Nuevo proyecto de investigación',
                     icon: '🔬',
-                    color: 'from-[#9b2247] to-[#611232]'
-                  },
-                  {
-                    title: 'Buscar Colaboradores',
-                    subtitle: 'Conectar con investigadores',
-                    icon: '🤝',
-                    color: 'from-[#1e5b4f] to-[#002f2a]'
-                  },
-                  {
-                    title: 'Subir Datos',
-                    subtitle: 'Compartir resultados',
-                    icon: '📈',
                     color: 'from-[#a57f2c] to-[#e6d194]'
                   },
                   {
@@ -370,8 +446,8 @@ export default function Dashboard() {
                     icon: '📋',
                     color: 'from-[#161a1d] to-[#98989A]'
                   }
-                ].map((action, index) => (
-                  <button key={index} className="group w-full text-left p-4 rounded-xl hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100 transition-all duration-200 border border-transparent hover:border-slate-200">
+                ].map((action, index) => {
+                  const ButtonContent = (
                     <div className="flex items-center space-x-3">
                       <div className={`w-10 h-10 bg-gradient-to-br ${action.color} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200`}>
                         <span className="text-lg">{action.icon}</span>
@@ -381,8 +457,22 @@ export default function Dashboard() {
                         <p className="text-sm text-slate-500">{action.subtitle}</p>
                       </div>
                     </div>
-                  </button>
-                ))}
+                  );
+
+                  if (action.href) {
+                    return (
+                      <Link key={index} href={action.href} className="group block w-full text-left p-4 rounded-xl hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100 transition-all duration-200 border border-transparent hover:border-slate-200">
+                        {ButtonContent}
+                      </Link>
+                    );
+                  }
+
+                  return (
+                    <button key={index} className="group w-full text-left p-4 rounded-xl hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100 transition-all duration-200 border border-transparent hover:border-slate-200">
+                      {ButtonContent}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
