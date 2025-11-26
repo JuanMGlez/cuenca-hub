@@ -52,9 +52,9 @@ export default function Home() {
                   <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></div>
                 </a>
                 <div className="ml-6 pl-6 border-l border-neutral border-opacity-20">
-                  <button className="bg-primary text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                    Acceso Institucional
-                  </button>
+                  <Link href="/login" className="inline-block bg-primary text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                    Iniciar Sesión
+                  </Link>
                 </div>
               </nav>
             </div>
@@ -79,9 +79,9 @@ export default function Home() {
               el trabajo transdisciplinario hacia la restauración de la cuenca.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-primary px-10 py-4 rounded-lg font-semibold shadow-lg text-sm uppercase tracking-wide">
+              <Link href="/login" className="inline-block btn-primary px-10 py-4 rounded-lg font-semibold shadow-lg text-sm uppercase tracking-wide">
                 Acceder a la Plataforma
-              </button>
+              </Link>
               <button className="border-2 border-primary text-primary px-10 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg text-sm uppercase tracking-wide hover:bg-primary hover:bg-opacity-5">
                 Consultar Datos Públicos
               </button>
@@ -227,12 +227,12 @@ export default function Home() {
             Forma parte de la red de colaboración para el saneamiento de la cuenca.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="btn-primary px-8 py-4 rounded-xl font-semibold shadow-lg">
+            <Link href="/registro" className="inline-block btn-primary px-8 py-4 rounded-xl font-semibold shadow-lg">
               Registrar Institución
-            </button>
-            <button className="border-2 border-neutral text-neutral px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:bg-neutral hover:bg-opacity-10">
+            </Link>
+            <Link href="/login" className="inline-block border-2 border-neutral text-neutral px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:bg-neutral hover:bg-opacity-10">
               Acceder como Ciudadano
-            </button>
+            </Link>
           </div>
         </div>
       </section>

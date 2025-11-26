@@ -1,0 +1,393 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
+import { User } from '@supabase/supabase-js';
+import { LogOut, BarChart3, Users, FileText, Settings, User as UserIcon, Building, MapPin } from 'lucide-react';
+
+interface UserProfile {
+  id: string;
+  nombre: string;
+  apellidos: string;
+  email: string;
+  institucion?: string;
+  estado: string;
+  tipo_usuario: 'comunitario' | 'academico' | 'institucional' | 'organizacional';
+  ocupacion?: string;
+  comunidad?: string;
+  grado?: string;
+  especialidad?: string;
+  cargo?: string;
+  dependencia?: string;
+  organizacion?: string;
+  sector?: string;
+  area_interes?: string;
+}
+
+export default function Dashboard() {
+  const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+      
+      // Obtener perfil del usuario
+      const { data: profileData, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (error) {
+        console.error('Error obteniendo perfil:', error);
+      } else {
+        setProfile(profileData);
+      }
+      
+      setUser(user);
+      setLoading(false);
+    };
+
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT' || !session) {
+        router.push('/login');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [router]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="relative">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary border-opacity-20 mx-auto mb-6"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary border-t-transparent absolute top-0 left-1/2 transform -translate-x-1/2"></div>
+          </div>
+          <p className="text-foreground font-medium">Verificando acceso...</p>
+          <p className="text-neutral text-sm mt-2">Cargando tu panel de control</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50">
+      {/* Modern Header */}
+      <header className="bg-white/80 backdrop-blur-xl border-b border-slate-200/60 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-lg">
+                  <BarChart3 className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-foreground">Dashboard Científico</h1>
+                  <div className="flex items-center space-x-2">
+                    <div className="gov-badge text-xs">COMECyT</div>
+                    <div className="w-1 h-1 bg-slate-300 rounded-full"></div>
+                    <span className="text-xs text-slate-500">Cuenca Lerma-Chapala-Santiago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              {/* User Avatar & Info */}
+              <div className="flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2 border border-slate-200/60">
+                <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
+                  <UserIcon className="w-4 h-4 text-primary" />
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-medium text-foreground">
+                    {profile ? `${profile.nombre} ${profile.apellidos}` : user?.email}
+                  </p>
+                  <p className="text-xs text-slate-500">
+                    {profile?.tipo_usuario === 'comunitario' && 'Comunitario'}
+                    {profile?.tipo_usuario === 'academico' && 'Académico'}
+                    {profile?.tipo_usuario === 'institucional' && 'Institucional'}
+                    {profile?.tipo_usuario === 'organizacional' && 'Organizacional'}
+                  </p>
+                </div>
+              </div>
+              
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 group"
+              >
+                <LogOut className="w-4 h-4 group-hover:rotate-12 transition-transform duration-200" />
+                <span className="text-sm font-medium">Salir</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="py-8 px-6">
+        <div className="max-w-7xl mx-auto space-y-8">
+          {/* Modern Welcome Section */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#161a1d]/5 via-[#9b2247]/5 to-[#1e5b4f]/5 rounded-3xl"></div>
+            <div className="relative bg-white/60 backdrop-blur-sm rounded-3xl p-8 border border-white/60 shadow-xl">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <h2 className="text-4xl font-bold bg-gradient-to-r from-[#9b2247] to-[#1e5b4f] bg-clip-text text-transparent">
+                      Hola, {profile?.nombre || 'Usuario'}
+                    </h2>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-sm text-green-600 font-medium">En línea</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 mb-6">
+                    <div className={`px-4 py-2 rounded-full text-sm font-medium ${
+                      profile?.tipo_usuario === 'comunitario' ? 'bg-[#1e5b4f]/10 text-[#1e5b4f]' :
+                      profile?.tipo_usuario === 'academico' ? 'bg-[#9b2247]/10 text-[#9b2247]' :
+                      profile?.tipo_usuario === 'institucional' ? 'bg-[#161a1d]/10 text-[#161a1d]' :
+                      'bg-[#a57f2c]/10 text-[#a57f2c]'
+                    }`}>
+                      {profile?.tipo_usuario === 'comunitario' && '🌱 Participante Comunitario/Ciudadano'}
+                      {profile?.tipo_usuario === 'academico' && '🎓 Investigador/Académico'}
+                      {profile?.tipo_usuario === 'institucional' && '🏛️ Representante Institucional/Gubernamental'}
+                      {profile?.tipo_usuario === 'organizacional' && '🏢 Representante Organizacional/Sectorial'}
+                    </div>
+                  </div>
+                  
+                  <p className="text-lg text-slate-600 leading-relaxed">
+                    Gestiona tu participación en la red científica de restauración de cuencas
+                  </p>
+                </div>
+                
+                {profile && (
+                  <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg min-w-[280px]">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="w-10 h-10 bg-gradient-to-br from-[#9b2247]/20 to-[#1e5b4f]/20 rounded-xl flex items-center justify-center">
+                        <UserIcon className="w-5 h-5 text-[#9b2247]" />
+                      </div>
+                      <span className="font-bold text-foreground">Mi Perfil</span>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {profile.institucion && (
+                        <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                          <Building className="w-4 h-4 text-slate-500" />
+                          <span className="text-sm text-foreground font-medium">{profile.institucion}</span>
+                        </div>
+                      )}
+                      <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                        <MapPin className="w-4 h-4 text-slate-500" />
+                        <span className="text-sm text-foreground font-medium capitalize">{profile.estado}</span>
+                      </div>
+                      {profile.especialidad && (
+                        <div className="p-2 rounded-lg bg-slate-50">
+                          <p className="text-xs text-slate-500 uppercase tracking-wide font-medium mb-1">Especialidad</p>
+                          <p className="text-sm text-foreground font-medium">{profile.especialidad}</p>
+                        </div>
+                      )}
+                      {profile.cargo && (
+                        <div className="p-2 rounded-lg bg-slate-50">
+                          <p className="text-xs text-slate-500 uppercase tracking-wide font-medium mb-1">Cargo</p>
+                          <p className="text-sm text-foreground font-medium">{profile.cargo}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Modern Stats Cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { 
+                icon: BarChart3, 
+                title: 'Proyectos', 
+                value: '3', 
+                subtitle: 'Proyectos activos',
+                color: 'from-[#9b2247] to-[#611232]',
+                bgColor: 'bg-[#9b2247]/10',
+                textColor: 'text-[#9b2247]',
+                trend: '+12%'
+              },
+              { 
+                icon: Users, 
+                title: 'Colaboradores', 
+                value: '12', 
+                subtitle: 'Red de contactos',
+                color: 'from-[#1e5b4f] to-[#002f2a]',
+                bgColor: 'bg-[#1e5b4f]/10',
+                textColor: 'text-[#1e5b4f]',
+                trend: '+8%'
+              },
+              { 
+                icon: FileText, 
+                title: 'Publicaciones', 
+                value: '8', 
+                subtitle: 'Artículos compartidos',
+                color: 'from-[#a57f2c] to-[#e6d194]',
+                bgColor: 'bg-[#a57f2c]/10',
+                textColor: 'text-[#a57f2c]',
+                trend: '+24%'
+              },
+              { 
+                icon: Settings, 
+                title: 'Configuración', 
+                value: '95%', 
+                subtitle: 'Perfil completado',
+                color: 'from-[#161a1d] to-[#98989A]',
+                bgColor: 'bg-[#161a1d]/10',
+                textColor: 'text-[#161a1d]',
+                trend: 'Actualizar'
+              }
+            ].map((card, index) => (
+              <div key={index} className="group relative">
+                <div className="relative bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`w-12 h-12 bg-gradient-to-br ${card.color} rounded-xl flex items-center justify-center shadow-lg`}>
+                      <card.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <div className={`px-2 py-1 ${card.bgColor} ${card.textColor} rounded-full text-xs font-medium`}>
+                      {card.trend}
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <h3 className="font-semibold text-slate-700">{card.title}</h3>
+                    <p className={`text-3xl font-bold ${card.textColor}`}>{card.value}</p>
+                    <p className="text-sm text-slate-500">{card.subtitle}</p>
+                  </div>
+                  
+                  <div className="mt-4 h-1 bg-slate-100 rounded-full overflow-hidden">
+                    <div className={`h-full bg-gradient-to-r ${card.color} rounded-full transition-all duration-1000`} style={{width: `${60 + index * 10}%`}}></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Modern Content Grid */}
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Enhanced Activity Feed */}
+            <div className="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-xl p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-foreground">Actividad Reciente</h3>
+                <button className="text-sm text-primary hover:text-primary/80 font-medium">Ver todo</button>
+              </div>
+              
+              <div className="space-y-4">
+                {[
+                  { 
+                    action: 'Nuevo proyecto creado', 
+                    time: 'Hace 2 horas', 
+                    type: 'proyecto',
+                    icon: '🚀',
+                    color: 'bg-[#9b2247]'
+                  },
+                  { 
+                    action: 'Colaborador agregado', 
+                    time: 'Hace 1 día', 
+                    type: 'colaboracion',
+                    icon: '👥',
+                    color: 'bg-[#1e5b4f]'
+                  },
+                  { 
+                    action: 'Datos actualizados', 
+                    time: 'Hace 3 días', 
+                    type: 'datos',
+                    icon: '📊',
+                    color: 'bg-[#a57f2c]'
+                  },
+                  { 
+                    action: 'Publicación compartida', 
+                    time: 'Hace 1 semana', 
+                    type: 'publicacion',
+                    icon: '📄',
+                    color: 'bg-[#161a1d]'
+                  }
+                ].map((item, index) => (
+                  <div key={index} className="group flex items-center space-x-4 p-4 rounded-xl hover:bg-slate-50/80 transition-all duration-200 cursor-pointer">
+                    <div className={`w-10 h-10 ${item.color} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-200`}>
+                      <span className="text-lg">{item.icon}</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-foreground group-hover:text-[#9b2247] transition-colors">{item.action}</p>
+                      <p className="text-sm text-slate-500">{item.time}</p>
+                    </div>
+                    <div className="w-2 h-2 bg-slate-300 rounded-full group-hover:bg-[#9b2247] transition-colors"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Enhanced Quick Actions */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-xl p-6">
+              <h3 className="text-xl font-bold text-foreground mb-6">Accesos Rápidos</h3>
+              
+              <div className="space-y-3">
+                {[
+                  {
+                    title: 'Crear Proyecto',
+                    subtitle: 'Nuevo proyecto de investigación',
+                    icon: '🔬',
+                    color: 'from-[#9b2247] to-[#611232]'
+                  },
+                  {
+                    title: 'Buscar Colaboradores',
+                    subtitle: 'Conectar con investigadores',
+                    icon: '🤝',
+                    color: 'from-[#1e5b4f] to-[#002f2a]'
+                  },
+                  {
+                    title: 'Subir Datos',
+                    subtitle: 'Compartir resultados',
+                    icon: '📈',
+                    color: 'from-[#a57f2c] to-[#e6d194]'
+                  },
+                  {
+                    title: 'Generar Reporte',
+                    subtitle: 'Análisis y métricas',
+                    icon: '📋',
+                    color: 'from-[#161a1d] to-[#98989A]'
+                  }
+                ].map((action, index) => (
+                  <button key={index} className="group w-full text-left p-4 rounded-xl hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100 transition-all duration-200 border border-transparent hover:border-slate-200">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-10 h-10 bg-gradient-to-br ${action.color} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200`}>
+                        <span className="text-lg">{action.icon}</span>
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-foreground group-hover:text-[#9b2247] transition-colors">{action.title}</p>
+                        <p className="text-sm text-slate-500">{action.subtitle}</p>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
