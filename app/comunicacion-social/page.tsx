@@ -28,7 +28,7 @@ export default function ComunicacionSocial() {
             <span className="block text-cream">Transforman</span>
           </h1>
           <p className="text-2xl mb-12 text-cream opacity-90 max-w-2xl mx-auto">
-            Descubre cómo las comunidades están restaurando la cuenca más importante de México
+            Conoce las estrategias científicas y tecnológicas que están transformando la cuenca
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -60,12 +60,12 @@ export default function ComunicacionSocial() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
-              { name: "María González", role: "Agricultora", location: "Jalisco", views: "156K" },
-              { name: "Dr. Carlos Mendoza", role: "Investigador", location: "Michoacán", views: "89K" },
-              { name: "Ana Ruiz", role: "Activista", location: "Guanajuato", views: "203K" },
-              { name: "Roberto Silva", role: "Pescador", location: "Jalisco", views: "134K" },
-              { name: "Ing. Patricia López", role: "TECNM", location: "Nacional", views: "267K" },
-              { name: "Comunidad Purépecha", role: "Líderes Indígenas", location: "Michoacán", views: "178K" }
+              { name: "Dra. Elena Martínez", role: "Hidroquímica", location: "COMECyT", views: "267K" },
+              { name: "Dr. Carlos Mendoza", role: "Ecología Acuática", location: "UAEM", views: "189K" },
+              { name: "Ing. Patricia López", role: "Tecnologías Ambientales", location: "IPN", views: "203K" },
+              { name: "Dr. Roberto Silva", role: "Gestión Hídrica", location: "UNAM", views: "234K" },
+              { name: "Mtra. Ana Ruiz", role: "Políticas Públicas", location: "COLMEX", views: "156K" },
+              { name: "Equipo Transdisciplinario", role: "Red de Investigación", location: "Multi-institucional", views: "298K" }
             ].map((person, index) => (
               <div key={index} className="group cursor-pointer">
                 <div className="relative aspect-video bg-gradient-to-br from-primary to-charcoal rounded-2xl overflow-hidden mb-4 group-hover:scale-105 transition-transform duration-300">
@@ -136,9 +136,9 @@ export default function ComunicacionSocial() {
           
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
-              { title: "#AguaLimpiaMéxico", engagement: "2.1M", platform: "Todas las redes" },
-              { title: "#CuencaViva", engagement: "856K", platform: "Instagram & TikTok" },
-              { title: "#RestauraCuenca", engagement: "1.3M", platform: "Facebook & Twitter" }
+              { title: "#CienciaParaLaCuenca", engagement: "1.8M", platform: "Todas las redes" },
+              { title: "#InvestigaciónTransdisciplinaria", engagement: "756K", platform: "LinkedIn & Academia" },
+              { title: "#TecnologíaAmbiental", engagement: "1.1M", platform: "Twitter & YouTube" }
             ].map((campaign, index) => (
               <div key={index} className="bg-gradient-to-br from-primary to-secondary p-8 rounded-2xl text-white text-center group hover:scale-105 transition-transform cursor-pointer">
                 <h3 className="text-2xl font-bold mb-4">{campaign.title}</h3>
