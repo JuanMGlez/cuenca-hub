@@ -11,6 +11,47 @@ import Logo from '@/components/Logo';
 import { supabase } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
 
+interface WaterQualityData {
+  metadata: {
+    satellite_id: string;
+    acquisition_date: string;
+    processing_level: string;
+    spatial_resolution_m: number;
+    aoi_water_area_ha: number;
+  };
+  diagnostic_image_url?: string;
+  indicators: {
+    eutrophication_ndci: {
+      mean_value: number;
+      max_value: number;
+      classification_breakdown_ha: {
+        clean_oligotrophic: number;
+        moderate_mesotrophic: number;
+        high_eutrophic: number;
+        critical_hypertrophic: number;
+      };
+    };
+    macrophytes_fai: {
+      mean_value: number;
+      floating_vegetation_area_ha: number;
+      percentage_coverage: number;
+      invasion_status: string;
+    };
+    turbidity_ndti: {
+      mean_value: number;
+      sediment_load_status: string;
+    };
+    cyanobacteria_risk: {
+      mean_ratio_2bda: number;
+      high_risk_area_ha: number;
+    };
+  };
+  quality_control: {
+    cloud_probability_percent: number;
+    valid_water_pixels: number;
+  };
+}
+
 export default function Argos() {
   const [activeLayer, setActiveLayer] = useState('alertas');
   const [activeView, setActiveView] = useState<'map' | 'water-quality'>('map');
@@ -18,7 +59,7 @@ export default function Argos() {
   const [timeFilter, setTimeFilter] = useState<'24h' | '7d' | '30d' | 'all'>('all');
   const [isRealTime, setIsRealTime] = useState(true);
 
-  const [waterQualityData, setWaterQualityData] = useState(null);
+  const [waterQualityData, setWaterQualityData] = useState<WaterQualityData | null>(null);
   const [showReportModal, setShowReportModal] = useState(false);
   const [reports, setReports] = useState<any[]>([]);
   const [loadingReports, setLoadingReports] = useState(false);
