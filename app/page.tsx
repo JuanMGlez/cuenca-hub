@@ -226,9 +226,9 @@ export default function Home() {
             <p className="text-xl text-neutral max-w-3xl mx-auto">Relatos que inspiran y movilizan hacia la recuperación de nuestro entorno.</p>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16 ">
             {/* Video principal */}
-            <div className="relative">
+            <div className="relative p-8 rounded-3xl" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)'}}>
               <div className="aspect-video rounded-2xl overflow-hidden shadow-lg">
                 <iframe 
                   src="https://www.youtube.com/embed/YSfxNTcpAx8?si=GXyxUC-S1gXfPNfI" 
@@ -274,6 +274,16 @@ export default function Home() {
                 <div>
                   <h4 className="font-bold text-foreground mb-2">Campañas Digitales</h4>
                   <p className="text-neutral text-sm">Contenido multimedia para redes sociales y medios</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-4 p-6 rounded-xl" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)'}}>
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#8B4513'}}>
+                  <Zap className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-foreground mb-2">Llamado a la Acción</h4>
+                  <p className="text-neutral text-sm">Eventos y campañas comunitarias para la saneación activa de la cuenca</p>
                 </div>
               </div>
             </div>

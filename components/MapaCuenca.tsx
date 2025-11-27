@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Polygon, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
+// amazonq-ignore-next-line
 const zonas = {
   alta: {
     coords: [
@@ -53,6 +54,7 @@ const zonas = {
 function MapController({ activeZone }: { activeZone: string | null }) {
   const map = useMap();
   
+  // amazonq-ignore-next-line
   useEffect(() => {
     if (activeZone && activeZone in zonas) {
       const zona = zonas[activeZone as keyof typeof zonas];
@@ -100,7 +102,7 @@ export default function MapaCuenca() {
       </div>
 
       <div className="lg:col-span-3 bg-white rounded-2xl p-4 shadow-lg relative z-0">
-        <div className="h-96 w-full rounded-xl overflow-hidden">
+        <div className="h-116 w-full rounded-xl overflow-hidden">
           <MapContainer 
             center={[20.2, -102.0]} 
             zoom={6} 
