@@ -3,7 +3,7 @@ import { useState } from 'react';
 export const useKGRAG = () => {
   const [loading, setLoading] = useState(false);
 
-  const query = async (question, file = null) => {
+  const query = async (question: string, file: File | null = null) => {
     setLoading(true);
     try {
       const formData = new FormData();
