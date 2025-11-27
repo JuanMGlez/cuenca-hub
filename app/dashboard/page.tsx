@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
-import { LogOut, BarChart3, Users, FileText, Settings, User as UserIcon, Building, MapPin, Map, MessageCircle, Activity, Brain, Activity as ActivityIcon } from 'lucide-react';
+import { LogOut, BarChart3, Users, FileText, Settings, User as UserIcon, Building, MapPin, Map, MessageCircle, Activity, Brain, Activity as ActivityIcon, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import ReportIncidentModal from '@/components/ReportIncidentModal';
@@ -38,6 +38,8 @@ export default function Dashboard() {
   const [showReportModal, setShowReportModal] = useState(false);
   const [sensorDevices, setSensorDevices] = useState<any[]>([]);
   const [showRegisterDevice, setShowRegisterDevice] = useState(false);
+  const [reports, setReports] = useState<any[]>([]);
+  const [filterUrgency, setFilterUrgency] = useState<'all' | 'emergency' | 'caution' | 'info'>('all');
 
   const closeReportModal = () => setShowReportModal(false);
 
@@ -53,6 +55,37 @@ export default function Dashboard() {
       }
     } catch (error) {
       console.error('Error cargando sensores:', error);
+    }
+  };
+
+  const loadReports = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('reports')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(10);
+      
+      if (!error && data) {
+        setReports(data);
+      }
+    } catch (error) {
+      console.error('Error cargando reportes:', error);
+    }
+  };
+
+  const updateReportStatus = async (reportId: string, newStatus: string) => {
+    try {
+      const { error } = await supabase
+        .from('reports')
+        .update({ status: newStatus })
+        .eq('id', reportId);
+      
+      if (!error) {
+        loadReports();
+      }
+    } catch (error) {
+      console.error('Error actualizando status:', error);
     }
   };
 
@@ -83,6 +116,7 @@ export default function Dashboard() {
     };
 
     loadSensorDevices();
+    loadReports();
     getUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -359,6 +393,174 @@ export default function Dashboard() {
                 </button>
               </Link>
             </div>
+          </div>
+
+          {/* Reportes Activos Section */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-xl p-6 mb-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#9b2247] to-[#611232] rounded-xl flex items-center justify-center">
+                  <AlertTriangle className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground">Reportes Activos</h3>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1">
+                  {['all', 'emergency', 'caution', 'info'].map((filter) => (
+                    <button
+                      key={filter}
+                      onClick={() => setFilterUrgency(filter as any)}
+                      className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                        filterUrgency === filter
+                          ? filter === 'emergency' ? 'bg-[#9b2247] text-white' :
+                            filter === 'caution' ? 'bg-[#a57f2c] text-white' :
+                            filter === 'info' ? 'bg-[#1e5b4f] text-white' :
+                            'bg-[#161a1d] text-white'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      }`}
+                    >
+                      {filter === 'all' ? 'Todos' : filter === 'emergency' ? '🔴' : filter === 'caution' ? '🟡' : '🟢'}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setShowReportModal(true)}
+                  className="px-3 py-1 bg-[#9b2247] text-white rounded-lg text-xs font-medium hover:bg-[#611232] transition-all"
+                >
+                  + Nuevo
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="bg-gradient-to-br from-[#9b2247]/10 to-[#9b2247]/5 p-4 rounded-xl border border-[#9b2247]/20">
+                <div className="text-3xl font-bold text-[#9b2247] mb-1">{reports.filter(r => r.urgency === 'emergency').length}</div>
+                <div className="text-sm text-[#161a1d]/60">Emergencias</div>
+              </div>
+              <div className="bg-gradient-to-br from-[#a57f2c]/10 to-[#a57f2c]/5 p-4 rounded-xl border border-[#a57f2c]/20">
+                <div className="text-3xl font-bold text-[#a57f2c] mb-1">{reports.filter(r => r.urgency === 'caution').length}</div>
+                <div className="text-sm text-[#161a1d]/60">Precaución</div>
+              </div>
+              <div className="bg-gradient-to-br from-[#1e5b4f]/10 to-[#1e5b4f]/5 p-4 rounded-xl border border-[#1e5b4f]/20">
+                <div className="text-3xl font-bold text-[#1e5b4f] mb-1">{reports.filter(r => r.urgency === 'info').length}</div>
+                <div className="text-sm text-[#161a1d]/60">Informativos</div>
+              </div>
+            </div>
+
+            <div className="space-y-3 max-h-96 overflow-y-auto">
+              {(filterUrgency === 'all' ? reports : reports.filter(r => r.urgency === filterUrgency)).map((report) => {
+                const getIncidentIcon = (type: string) => {
+                  switch (type) {
+                    case 'descarga_residual': return '🏭';
+                    case 'basura': return '🗑️';
+                    case 'olor': return '💨';
+                    case 'mortandad': return '🐟';
+                    case 'coloracion': return '🎨';
+                    default: return '⚠️';
+                  }
+                };
+                
+                const getIncidentName = (type: string) => {
+                  switch (type) {
+                    case 'descarga_residual': return 'Descarga Residual';
+                    case 'basura': return 'Basura/Obstrucción';
+                    case 'olor': return 'Olor Ofensivo';
+                    case 'mortandad': return 'Mortandad Fauna';
+                    case 'coloracion': return 'Cambio Coloración';
+                    default: return 'Incidente';
+                  }
+                };
+
+                return (
+                  <div key={report.id} className={`group p-4 rounded-xl border transition-all hover:shadow-md ${
+                    report.urgency === 'emergency' ? 'bg-[#9b2247]/5 border-[#9b2247]/30 hover:bg-[#9b2247]/10' :
+                    report.urgency === 'caution' ? 'bg-[#a57f2c]/5 border-[#a57f2c]/30 hover:bg-[#a57f2c]/10' :
+                    'bg-[#1e5b4f]/5 border-[#1e5b4f]/30 hover:bg-[#1e5b4f]/10'
+                  }`}>
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center space-x-3">
+                        <div className="text-2xl">{getIncidentIcon(report.incident_type)}</div>
+                        <div>
+                          <p className={`font-bold text-sm ${
+                            report.urgency === 'emergency' ? 'text-[#611232]' :
+                            report.urgency === 'caution' ? 'text-[#a57f2c]' :
+                            'text-[#002f2a]'
+                          }`}>
+                            {getIncidentName(report.incident_type)}
+                          </p>
+                          <p className="text-xs text-slate-600">📍 {report.municipality}</p>
+                        </div>
+                      </div>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        report.urgency === 'emergency' ? 'bg-[#9b2247]/20 text-[#611232]' :
+                        report.urgency === 'caution' ? 'bg-[#a57f2c]/20 text-[#a57f2c]' :
+                        'bg-[#1e5b4f]/20 text-[#002f2a]'
+                      }`}>
+                        {report.urgency === 'emergency' ? '🔴 Urgente' : report.urgency === 'caution' ? '🟡 Precaución' : '🟢 Info'}
+                      </span>
+                    </div>
+                    
+                    <p className="text-sm text-slate-600 mb-3 line-clamp-2">{report.reference}</p>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs text-slate-500">
+                          {new Date(report.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                        <select
+                          value={report.status || 'open'}
+                          onChange={(e) => updateReportStatus(report.id, e.target.value)}
+                          className={`text-xs font-medium px-2 py-1 rounded border transition-all ${
+                            report.status === 'resolved' ? 'bg-green-50 text-green-700 border-green-200' :
+                            report.status === 'in_progress' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                            'bg-slate-50 text-slate-700 border-slate-200'
+                          }`}
+                        >
+                          <option value="open">🔵 Abierto</option>
+                          <option value="in_progress">🟡 En Progreso</option>
+                          <option value="resolved">✅ Resuelto</option>
+                        </select>
+                      </div>
+                      <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Link href={`/argos?report=${report.id}`}>
+                          <button className="px-3 py-1 bg-[#9b2247] text-white rounded-lg text-xs font-medium hover:bg-[#611232] transition-all">
+                            Ver en Argos
+                          </button>
+                        </Link>
+                        <Link href={`/tlamatia?report=${report.id}&type=${report.incident_type}&municipality=${report.municipality}&urgency=${report.urgency}`}>
+                          <button className="px-3 py-1 bg-[#1e5b4f] text-white rounded-lg text-xs font-medium hover:bg-[#002f2a] transition-all flex items-center space-x-1">
+                            <Brain className="w-3 h-3" />
+                            <span>Analizar con IA</span>
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {reports.length === 0 && (
+              <div className="text-center py-8">
+                <div className="text-4xl mb-2">📋</div>
+                <p className="text-slate-600 mb-2">No hay reportes activos</p>
+                <button
+                  onClick={() => setShowReportModal(true)}
+                  className="text-sm text-[#9b2247] hover:text-[#611232] font-medium"
+                >
+                  Crear primer reporte
+                </button>
+              </div>
+            )}
+
+            {reports.length > 0 && (
+              <div className="mt-4 pt-4 border-t border-slate-200">
+                <Link href="/argos" className="flex items-center justify-center space-x-2 text-sm text-[#9b2247] hover:text-[#611232] font-medium">
+                  <span>Ver todos los reportes en Argos</span>
+                  <span>→</span>
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Tools Section */}

@@ -25,14 +25,8 @@ interface Message {
 }
 
 export default function TlamatIA() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      type: 'assistant',
-      content: '¡Hola! Soy TlamatIA, tu agente conversacional especializado en ciencias ambientales y restauración de cuencas. ¿En qué puedo ayudarte hoy?',
-      timestamp: new Date()
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [initialLoad, setInitialLoad] = useState(false);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -49,6 +43,49 @@ export default function TlamatIA() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    if (initialLoad) return;
+    
+    const params = new URLSearchParams(window.location.search);
+    const reportId = params.get('report');
+    const reportType = params.get('type');
+    const municipality = params.get('municipality');
+    const urgency = params.get('urgency');
+
+    if (reportId && reportType && municipality) {
+      const getIncidentName = (type: string) => {
+        switch (type) {
+          case 'descarga_residual': return 'Descarga Residual';
+          case 'basura': return 'Basura/Obstrucción';
+          case 'olor': return 'Olor Ofensivo';
+          case 'mortandad': return 'Mortandad de Fauna';
+          case 'coloracion': return 'Cambio de Coloración';
+          default: return 'Incidente';
+        }
+      };
+
+      const urgencyText = urgency === 'emergency' ? 'URGENTE' : urgency === 'caution' ? 'PRECAUCIÓN' : 'INFORMATIVO';
+      const contextPrompt = `Analiza este reporte ambiental:\n\nTipo: ${getIncidentName(reportType)}\nMunicipio: ${municipality}\nNivel de urgencia: ${urgencyText}\n\n¿Qué acciones inmediatas recomiendas? ¿Qué análisis adicionales se necesitan? ¿Cuáles son los posibles impactos ambientales?`;
+      
+      setInput(contextPrompt);
+      setMessages([{
+        id: '1',
+        type: 'assistant',
+        content: `He recibido el contexto del reporte de **${getIncidentName(reportType)}** en ${municipality}. Estoy listo para analizarlo. Presiona Enter para que te proporcione un análisis detallado y recomendaciones.`,
+        timestamp: new Date()
+      }]);
+    } else {
+      setMessages([{
+        id: '1',
+        type: 'assistant',
+        content: '¡Hola! Soy TlamatIA, tu agente conversacional especializado en ciencias ambientales y restauración de cuencas. ¿En qué puedo ayudarte hoy?',
+        timestamp: new Date()
+      }]);
+    }
+    
+    setInitialLoad(true);
+  }, []);
 
   const handleSend = async () => {
     const trimmedInput = input.trim();
