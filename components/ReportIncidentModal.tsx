@@ -45,19 +45,43 @@ export default function ReportIncidentModal({ isOpen, onClose, user }: ReportInc
     const [isSuccess, setIsSuccess] = useState(false);
     const [loadingLocation, setLoadingLocation] = useState(false);
 
-    const getLocation = () => {
+    const getLocation = async () => {
         if (navigator.geolocation) {
             setLoadingLocation(true);
             navigator.geolocation.getCurrentPosition(
-                (position) => {
+                async (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    
                     setReportForm(prev => ({
                         ...prev,
                         location: {
                             ...prev.location,
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
+                            lat,
+                            lng
                         }
                     }));
+                    
+                    // Reverse geocoding con Nominatim
+                    try {
+                        const response = await fetch(
+                            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=es`,
+                            { headers: { 'User-Agent': 'CuencaHub/1.0' } }
+                        );
+                        const data = await response.json();
+                        const municipality = data.address?.city || data.address?.town || data.address?.municipality || data.address?.county || '';
+                        
+                        setReportForm(prev => ({
+                            ...prev,
+                            location: {
+                                ...prev.location,
+                                municipality
+                            }
+                        }));
+                    } catch (error) {
+                        console.log('Error obteniendo municipio:', error);
+                    }
+                    
                     setLoadingLocation(false);
                 },
                 (error) => {
@@ -250,19 +274,14 @@ export default function ReportIncidentModal({ isOpen, onClose, user }: ReportInc
                                                 <div className="w-2 h-2 bg-[#9b2247] rounded-full mr-2"></div>
                                                 Municipio/Zona
                                             </label>
-                                            <select
+                                            <input
+                                                type="text"
                                                 value={reportForm.location.municipality}
                                                 onChange={(e) => updateReportForm('location', 'municipality', e.target.value)}
+                                                placeholder={loadingLocation ? 'Detectando...' : 'Municipio'}
                                                 className="w-full p-4 bg-white/90 border-2 border-[#98989A]/30 rounded-2xl text-sm text-[#161a1d] focus:border-[#9b2247] focus:outline-none focus:ring-4 focus:ring-[#9b2247]/10 transition-all duration-300 shadow-sm hover:shadow-md"
                                                 required
-                                            >
-                                                <option value="">Seleccionar...</option>
-                                                <option value="Chapala">Chapala</option>
-                                                <option value="Ocotlán">Ocotlán</option>
-                                                <option value="Toluca">Toluca</option>
-                                                <option value="Guadalajara">Guadalajara</option>
-                                                <option value="León">León</option>
-                                            </select>
+                                            />
                                         </div>
                                     </div>
                                     <div className="mt-6">
