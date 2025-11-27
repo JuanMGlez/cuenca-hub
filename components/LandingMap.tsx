@@ -1,9 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { LatLngExpression } from 'leaflet';
-import { AlertTriangle, Droplets, Recycle, Play, MapPin, Calendar, Users, X, Upload, Camera } from 'lucide-react';
+import { AlertTriangle, Droplets, Recycle, Play, MapPin, Calendar, Users } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import { User } from '@supabase/supabase-js';
+import ReportIncidentModal from './ReportIncidentModal';
 
 const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
@@ -44,49 +48,21 @@ interface LayerState {
   stories: boolean;
 }
 
-interface ReportForm {
-  location: {
-    lat: number;
-    lng: number;
-    reference: string;
-    municipality: string;
-  };
-  incident: {
-    type: string;
-    urgency: 'info' | 'caution' | 'emergency';
-    evidence: File | null;
-  };
-  measurements: {
-    hasSensor: boolean;
-    ph?: number;
-    temperature?: number;
-    turbidity?: number;
-  };
-  narrative: {
-    description: string;
-    impact: string;
-  };
-}
-
 export default function LandingMap() {
   const [isClient, setIsClient] = useState(false);
   const [leafletReady, setLeafletReady] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
   const [layers, setLayers] = useState<LayerState>({
     alerts: false,
     projects: true,
     stories: false
   });
   const [showReportModal, setShowReportModal] = useState(false);
-  const [reportForm, setReportForm] = useState<ReportForm>({
-    location: { lat: 0, lng: 0, reference: '', municipality: '' },
-    incident: { type: '', urgency: 'info', evidence: null },
-    measurements: { hasSensor: false },
-    narrative: { description: '', impact: '' }
-  });
 
   useEffect(() => {
     setIsClient(true);
-    
+
     const loadLeaflet = async () => {
       if (typeof window !== 'undefined') {
         const L = await import('leaflet');
@@ -94,8 +70,14 @@ export default function LandingMap() {
         setLeafletReady(true);
       }
     };
-    
+
     loadLeaflet();
+
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    getUser();
   }, []);
 
   const createIcon = (color: string, emoji: string) => {
@@ -282,54 +264,11 @@ export default function LandingMap() {
   };
 
   const openReportModal = () => {
-    // Obtener geolocalización automática
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setReportForm(prev => ({
-            ...prev,
-            location: {
-              ...prev.location,
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            }
-          }));
-        },
-        (error) => {
-          console.log('Error obteniendo ubicación:', error);
-        }
-      );
-    }
     setShowReportModal(true);
   };
 
   const closeReportModal = () => {
     setShowReportModal(false);
-    // Resetear formulario
-    setReportForm({
-      location: { lat: 0, lng: 0, reference: '', municipality: '' },
-      incident: { type: '', urgency: 'info', evidence: null },
-      measurements: { hasSensor: false },
-      narrative: { description: '', impact: '' }
-    });
-  };
-
-  const handleSubmitReport = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Reporte enviado:', reportForm);
-    // Aquí se enviaría el reporte al backend
-    alert('¡Reporte enviado exitosamente!');
-    closeReportModal();
-  };
-
-  const updateReportForm = (section: keyof ReportForm, field: string, value: any) => {
-    setReportForm(prev => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value
-      }
-    }));
   };
 
   if (!isClient || !leafletReady) {
@@ -346,13 +285,13 @@ export default function LandingMap() {
   return (
     <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl z-10">
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      
+
       <MapContainer center={center} zoom={8} style={{ height: '100%', width: '100%' }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; OpenStreetMap contributors'
         />
-        
+
         {/* Alertas y Riesgos */}
         {layers.alerts && alertZones.map((zone) => {
           const icon = createIcon(
@@ -368,9 +307,8 @@ export default function LandingMap() {
                     <h3 className="font-bold text-slate-800">{zone.name}</h3>
                   </div>
                   <p className="text-sm text-slate-600">{zone.description}</p>
-                  <div className={`mt-2 px-2 py-1 rounded text-xs font-medium ${
-                    zone.level === 'red' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
-                  }`}>
+                  <div className={`mt-2 px-2 py-1 rounded text-xs font-medium ${zone.level === 'red' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                    }`}>
                     {zone.level === 'red' ? '🔴 Zona Roja' : '🟡 Zona Amarilla'}
                   </div>
                 </div>
@@ -398,15 +336,15 @@ export default function LandingMap() {
                 <Popup>
                   <div className="p-3 min-w-[200px]">
                     <div className="flex items-center space-x-2 mb-2">
-                      <div className={`w-4 h-4 rounded-full`} style={{backgroundColor: color}}></div>
+                      <div className={`w-4 h-4 rounded-full`} style={{ backgroundColor: color }}></div>
                       <h3 className="font-bold text-slate-800">{project.name}</h3>
                     </div>
                     <div className="space-y-2">
                       <p className="text-sm"><span className="font-medium">Adoptado por:</span> {project.leader}</p>
                       <p className="text-sm text-slate-600">{project.description}</p>
                       <div className="flex items-center space-x-2">
-                        <div className={`w-2 h-2 rounded-full animate-pulse`} style={{backgroundColor: color}}></div>
-                        <span className="text-xs font-medium" style={{color: color}}>Tramo Adoptado</span>
+                        <div className={`w-2 h-2 rounded-full animate-pulse`} style={{ backgroundColor: color }}></div>
+                        <span className="text-xs font-medium" style={{ color: color }}>Tramo Adoptado</span>
                       </div>
                     </div>
                   </div>
@@ -480,7 +418,7 @@ export default function LandingMap() {
             <div className="w-3 h-3 bg-red-500 rounded-full"></div>
             <span className="text-sm font-medium">Alertas y Riesgos</span>
           </label>
-          
+
           <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
@@ -491,7 +429,7 @@ export default function LandingMap() {
             <div className="w-3 h-3 bg-green-500 rounded-full"></div>
             <span className="text-sm font-medium">Proyectos Activos</span>
           </label>
-          
+
           <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
@@ -507,7 +445,7 @@ export default function LandingMap() {
 
       {/* Botón de Acción Rápida */}
       <div className="absolute bottom-4 right-4 z-[1001]">
-        <button 
+        <button
           onClick={openReportModal}
           className="bg-gradient-to-r from-[#9b2247] to-[#611232] text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center space-x-2"
         >
@@ -539,345 +477,11 @@ export default function LandingMap() {
       </div>
 
       {/* Modal de Reporte */}
-      {showReportModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[2000] p-4 pt-20">
-          <div className="bg-white/95 backdrop-blur-xl rounded-3xl w-full max-w-4xl shadow-[0_32px_64px_rgba(22,26,29,0.15)] transform transition-all duration-500 ease-out scale-100 max-h-[70vh] flex flex-col border border-[#98989A]/20 ring-1 ring-white/50">
-            {/* Header */}
-            <div className="rounded-t-3xl p-6 bg-gradient-to-br from-white via-[#e6d194]/5 to-white/90 border-b border-[#98989A]/20">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-gradient-to-br from-[#1e5b4f] to-[#002f2a] rounded-2xl shadow-lg">
-                    <MapPin className="w-6 h-6 text-[#e6d194]" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold text-[#161a1d] tracking-tight">Reportar Incidente</h2>
-                    <p className="text-[#98989A] text-sm font-medium">Ayuda a proteger nuestra cuenca</p>
-                  </div>
-                </div>
-                <button onClick={closeReportModal} className="p-3 hover:bg-[#98989A]/10 rounded-2xl transition-all duration-300 group border border-[#98989A]/20">
-                  <X className="w-5 h-5 text-[#161a1d] group-hover:rotate-90 transition-transform duration-300" />
-                </button>
-              </div>
-            </div>
-            
-            <div className="p-6 overflow-y-auto flex-1 bg-gradient-to-br from-white via-[#e6d194]/5 to-white/90">
-
-              <form onSubmit={handleSubmitReport} className="space-y-8">
-                {/* 1. Ubicación */}
-                <div className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-[#1e5b4f] to-[#a57f2c] rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                  <div className="relative bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-[#98989A]/20 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center space-x-4 mb-6">
-                      <div className="p-3 bg-gradient-to-br from-[#1e5b4f] to-[#002f2a] rounded-2xl shadow-lg">
-                        <MapPin className="w-6 h-6 text-[#e6d194]" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-[#161a1d] tracking-tight">Ubicación del Incidente</h3>
-                        <p className="text-[#98989A] text-sm font-medium">Especifica dónde ocurrió el problema</p>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <label className="block text-sm font-bold text-[#161a1d] mb-3 flex items-center">
-                          <div className="w-2 h-2 bg-[#1e5b4f] rounded-full mr-2"></div>
-                          Coordenadas GPS
-                        </label>
-                        <div className="relative">
-                          <input 
-                            type="text" 
-                            value={`${reportForm.location.lat.toFixed(6)}, ${reportForm.location.lng.toFixed(6)}`}
-                            readOnly
-                            className="w-full p-4 bg-gradient-to-r from-[#e6d194]/10 to-[#a57f2c]/5 border-2 border-[#a57f2c]/30 rounded-2xl text-sm font-mono text-[#161a1d] focus:outline-none shadow-inner"
-                          />
-                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                            <div className="w-2 h-2 bg-[#1e5b4f] rounded-full animate-pulse"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <label className="block text-sm font-bold text-[#161a1d] mb-3 flex items-center">
-                          <div className="w-2 h-2 bg-[#9b2247] rounded-full mr-2"></div>
-                          Municipio/Zona
-                        </label>
-                        <select 
-                          value={reportForm.location.municipality}
-                          onChange={(e) => updateReportForm('location', 'municipality', e.target.value)}
-                          className="w-full p-4 bg-white/90 border-2 border-[#98989A]/30 rounded-2xl text-sm text-[#161a1d] focus:border-[#9b2247] focus:outline-none focus:ring-4 focus:ring-[#9b2247]/10 transition-all duration-300 shadow-sm hover:shadow-md"
-                          required
-                        >
-                        <option value="">Seleccionar...</option>
-                        <option value="Chapala">Chapala</option>
-                        <option value="Ocotlán">Ocotlán</option>
-                        <option value="Toluca">Toluca</option>
-                        <option value="Guadalajara">Guadalajara</option>
-                        <option value="León">León</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="mt-6">
-                    <label className="block text-sm font-bold text-[#161a1d] mb-3 flex items-center">
-                      <div className="w-2 h-2 bg-[#a57f2c] rounded-full mr-2"></div>
-                      Referencia Visual
-                    </label>
-                    <div className="relative">
-                      <input 
-                        type="text" 
-                        placeholder="Ej: Frente a la escuela primaria, cerca del puente..."
-                        value={reportForm.location.reference}
-                        onChange={(e) => updateReportForm('location', 'reference', e.target.value)}
-                        className="w-full p-4 bg-white/90 border-2 border-[#98989A]/30 rounded-2xl text-sm text-[#161a1d] focus:border-[#a57f2c] focus:outline-none focus:ring-4 focus:ring-[#a57f2c]/10 transition-all duration-300 shadow-sm hover:shadow-md placeholder:text-[#98989A]"
-                        required
-                      />
-                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#98989A]">
-                        📍
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-                {/* 2. Diagnóstico Visual */}
-                <div className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-[#9b2247] to-[#611232] rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                  <div className="relative bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-[#98989A]/20 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center space-x-4 mb-6">
-                      <div className="p-3 bg-gradient-to-br from-[#9b2247] to-[#611232] rounded-2xl shadow-lg">
-                        <AlertTriangle className="w-6 h-6 text-[#e6d194]" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-[#161a1d] tracking-tight">Diagnóstico Visual</h3>
-                        <p className="text-[#98989A] text-sm font-medium">Describe el problema observado</p>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <label className="block text-sm font-bold text-[#161a1d] mb-3 flex items-center">
-                          <div className="w-2 h-2 bg-[#9b2247] rounded-full mr-2"></div>
-                          Tipo de Incidente
-                        </label>
-                        <select 
-                          value={reportForm.incident.type}
-                          onChange={(e) => updateReportForm('incident', 'type', e.target.value)}
-                          className="w-full p-4 bg-white/90 border-2 border-[#98989A]/30 rounded-2xl text-sm text-[#161a1d] focus:border-[#9b2247] focus:outline-none focus:ring-4 focus:ring-[#9b2247]/10 transition-all duration-300 shadow-sm hover:shadow-md"
-                          required
-                        >
-                        <option value="">Seleccionar...</option>
-                        <option value="descarga_residual">Descarga de agua residual</option>
-                        <option value="basura">Basura acumulada / Obstrucción</option>
-                        <option value="olor">Olor ofensivo / Gases</option>
-                        <option value="mortandad">Mortandad de peces o fauna</option>
-                        <option value="coloracion">Cambio de coloración drástico</option>
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="block text-sm font-bold text-[#161a1d] mb-3 flex items-center">
-                        <div className="w-2 h-2 bg-[#611232] rounded-full mr-2"></div>
-                        Nivel de Urgencia
-                      </label>
-                      <select 
-                        value={reportForm.incident.urgency}
-                        onChange={(e) => updateReportForm('incident', 'urgency', e.target.value)}
-                        className="w-full p-4 bg-white/90 border-2 border-[#98989A]/30 rounded-2xl text-sm text-[#161a1d] focus:border-[#611232] focus:outline-none focus:ring-4 focus:ring-[#611232]/10 transition-all duration-300 shadow-sm hover:shadow-md"
-                      >
-                        <option value="info">🟢 Informativo</option>
-                        <option value="caution">🟡 Precaución</option>
-                        <option value="emergency">🔴 Emergencia</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="mt-6">
-                    <label className="block text-sm font-bold text-[#161a1d] mb-3 flex items-center">
-                      <div className="w-2 h-2 bg-[#9b2247] rounded-full mr-2"></div>
-                      Evidencia Multimedia
-                    </label>
-                    <div className="relative group/upload">
-                      <div className="border-2 border-dashed border-[#9b2247]/40 rounded-2xl p-8 text-center bg-gradient-to-br from-[#e6d194]/10 via-white/50 to-[#9b2247]/5 hover:from-[#e6d194]/20 hover:to-[#9b2247]/10 transition-all duration-300 group-hover/upload:border-[#9b2247] group-hover/upload:shadow-lg">
-                        <div className="flex flex-col items-center space-y-3">
-                          <div className="p-4 bg-gradient-to-br from-[#9b2247] to-[#611232] rounded-2xl shadow-lg group-hover/upload:scale-110 transition-transform duration-300">
-                            <Camera className="w-8 h-8 text-[#e6d194]" />
-                          </div>
-                          <div>
-                            <p className="text-base font-bold text-[#161a1d] mb-1">Subir evidencia visual</p>
-                            <p className="text-sm text-[#98989A]">Foto o video del incidente (Máx. 10MB)</p>
-                          </div>
-                          <input type="file" accept="image/*,video/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-                {/* 3. Ciencia Ciudadana */}
-                <div className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-[#1e5b4f] to-[#002f2a] rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                  <div className="relative bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-[#98989A]/20 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center space-x-4 mb-6">
-                      <div className="p-3 bg-gradient-to-br from-[#1e5b4f] to-[#002f2a] rounded-2xl shadow-lg">
-                        <Droplets className="w-6 h-6 text-[#e6d194]" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-[#161a1d] tracking-tight">Ciencia Ciudadana</h3>
-                        <p className="text-[#98989A] text-sm font-medium">Datos técnicos opcionales</p>
-                      </div>
-                    </div>
-                    
-                    <div className="mb-6">
-                      <div className="relative">
-                        <input 
-                          type="checkbox" 
-                          id="hasSensor"
-                          checked={reportForm.measurements.hasSensor}
-                          onChange={(e) => updateReportForm('measurements', 'hasSensor', e.target.checked)}
-                          className="sr-only peer"
-                        />
-                        <label htmlFor="hasSensor" className="flex items-center space-x-4 p-4 bg-gradient-to-r from-white/90 to-[#e6d194]/10 rounded-2xl border-2 border-[#98989A]/20 cursor-pointer hover:border-[#1e5b4f]/40 peer-checked:border-[#1e5b4f] peer-checked:bg-gradient-to-r peer-checked:from-[#1e5b4f]/5 peer-checked:to-[#002f2a]/5 transition-all duration-300 group/checkbox">
-                          <div className="relative">
-                            <div className={`w-6 h-6 border-2 rounded-lg transition-all duration-300 flex items-center justify-center ${
-                              reportForm.measurements.hasSensor 
-                                ? 'bg-[#1e5b4f] border-[#1e5b4f]' 
-                                : 'bg-white border-[#98989A]'
-                            }`}>
-                              {reportForm.measurements.hasSensor && (
-                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                              )}
-                            </div>
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-base font-bold text-[#161a1d] group-hover/checkbox:text-[#1e5b4f] transition-colors">¿Cuentas con un kit de medición?</p>
-                            <p className="text-sm text-[#98989A]">Agrega datos técnicos para mayor precisión</p>
-                          </div>
-                        </label>
-                      </div>
-                    </div>
-                    
-                    {reportForm.measurements.hasSensor && (
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 animate-in slide-in-from-top-2 duration-300">
-                        <div className="space-y-2">
-                          <label className="block text-sm font-bold text-[#161a1d] mb-2 flex items-center">
-                            <div className="w-2 h-2 bg-[#1e5b4f] rounded-full mr-2"></div>
-                            pH
-                          </label>
-                          <input 
-                            type="number" 
-                            step="0.1" 
-                            min="0" 
-                            max="14"
-                            value={reportForm.measurements.ph || ''}
-                            onChange={(e) => updateReportForm('measurements', 'ph', parseFloat(e.target.value))}
-                            className="w-full p-3 bg-white/90 border-2 border-[#98989A]/30 rounded-xl text-sm text-[#161a1d] focus:border-[#1e5b4f] focus:outline-none focus:ring-4 focus:ring-[#1e5b4f]/10 transition-all duration-300 shadow-sm hover:shadow-md"
-                            placeholder="7.0"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="block text-sm font-bold text-[#161a1d] mb-2 flex items-center">
-                            <div className="w-2 h-2 bg-[#002f2a] rounded-full mr-2"></div>
-                            Temperatura (°C)
-                          </label>
-                          <input 
-                            type="number" 
-                            step="0.1"
-                            value={reportForm.measurements.temperature || ''}
-                            onChange={(e) => updateReportForm('measurements', 'temperature', parseFloat(e.target.value))}
-                            className="w-full p-3 bg-white/90 border-2 border-[#98989A]/30 rounded-xl text-sm text-[#161a1d] focus:border-[#002f2a] focus:outline-none focus:ring-4 focus:ring-[#002f2a]/10 transition-all duration-300 shadow-sm hover:shadow-md"
-                            placeholder="25.0"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="block text-sm font-bold text-[#161a1d] mb-2 flex items-center">
-                            <div className="w-2 h-2 bg-[#a57f2c] rounded-full mr-2"></div>
-                            Turbidez (NTU)
-                          </label>
-                          <input 
-                            type="number" 
-                            step="0.1" 
-                            min="0"
-                            value={reportForm.measurements.turbidity || ''}
-                            onChange={(e) => updateReportForm('measurements', 'turbidity', parseFloat(e.target.value))}
-                            className="w-full p-3 bg-white/90 border-2 border-[#98989A]/30 rounded-xl text-sm text-[#161a1d] focus:border-[#a57f2c] focus:outline-none focus:ring-4 focus:ring-[#a57f2c]/10 transition-all duration-300 shadow-sm hover:shadow-md"
-                            placeholder="10.0"
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* 4. Narrativa */}
-                <div className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-[#a57f2c] to-[#e6d194] rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                  <div className="relative bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-[#98989A]/20 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center space-x-4 mb-6">
-                      <div className="p-3 bg-gradient-to-br from-[#a57f2c] to-[#e6d194] rounded-2xl shadow-lg">
-                        <Users className="w-6 h-6 text-[#161a1d]" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-[#161a1d] tracking-tight">Narrativa Comunitaria</h3>
-                        <p className="text-[#98989A] text-sm font-medium">Cuenta tu experiencia y el impacto</p>
-                      </div>
-                    </div>
-                    <div className="space-y-6">
-                      <div className="space-y-2">
-                        <label className="block text-sm font-bold text-[#161a1d] mb-3 flex items-center">
-                          <div className="w-2 h-2 bg-[#a57f2c] rounded-full mr-2"></div>
-                          Descripción del problema
-                        </label>
-                        <textarea 
-                          value={reportForm.narrative.description}
-                          onChange={(e) => updateReportForm('narrative', 'description', e.target.value)}
-                          className="w-full p-4 bg-white/90 border-2 border-[#98989A]/30 rounded-2xl text-sm text-[#161a1d] focus:border-[#a57f2c] focus:outline-none focus:ring-4 focus:ring-[#a57f2c]/10 transition-all duration-300 shadow-sm hover:shadow-md resize-none placeholder:text-[#98989A]"
-                          placeholder="Describe detalladamente qué estás observando..."
-                          rows={4}
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="block text-sm font-bold text-[#161a1d] mb-3 flex items-center">
-                          <div className="w-2 h-2 bg-[#e6d194] rounded-full mr-2"></div>
-                          Impacto en la comunidad
-                        </label>
-                        <textarea 
-                          value={reportForm.narrative.impact}
-                          onChange={(e) => updateReportForm('narrative', 'impact', e.target.value)}
-                          className="w-full p-4 bg-white/90 border-2 border-[#98989A]/30 rounded-2xl text-sm text-[#161a1d] focus:border-[#e6d194] focus:outline-none focus:ring-4 focus:ring-[#e6d194]/20 transition-all duration-300 shadow-sm hover:shadow-md resize-none placeholder:text-[#98989A]"
-                          placeholder="Ej: Ya no podemos pescar, afecta la salud de los niños, huele mal en la escuela..."
-                          rows={4}
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Botones */}
-                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-8 border-t border-gradient-to-r from-[#98989A]/20 via-[#a57f2c]/20 to-[#98989A]/20">
-                  <button 
-                    type="button" 
-                    onClick={closeReportModal}
-                    className="flex-1 group relative overflow-hidden px-8 py-4 bg-white/90 border-2 border-[#98989A]/40 rounded-2xl hover:border-[#98989A] transition-all duration-300 text-base font-bold text-[#161a1d] hover:bg-[#98989A]/5 shadow-sm hover:shadow-md"
-                  >
-                    <span className="relative z-10 flex items-center justify-center space-x-2">
-                      <span>Cancelar</span>
-                    </span>
-                  </button>
-                  <button 
-                    type="submit"
-                    className="flex-1 group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-[#1e5b4f] via-[#9b2247] to-[#611232] text-white rounded-2xl hover:shadow-2xl transition-all duration-500 text-base font-bold transform hover:scale-[1.02] active:scale-[0.98]"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#002f2a] via-[#611232] to-[#161a1d] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <span className="relative z-10 flex items-center justify-center space-x-3">
-                      <span>Enviar Reporte</span>
-                      <div className="w-2 h-2 bg-[#e6d194] rounded-full animate-pulse"></div>
-                    </span>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
+      <ReportIncidentModal
+        isOpen={showReportModal}
+        onClose={closeReportModal}
+        user={user}
+      />
     </div>
   );
 }

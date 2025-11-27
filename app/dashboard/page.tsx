@@ -7,6 +7,7 @@ import { User } from '@supabase/supabase-js';
 import { LogOut, BarChart3, Users, FileText, Settings, User as UserIcon, Building, MapPin, Map, MessageCircle, Activity, Brain } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
+import ReportIncidentModal from '@/components/ReportIncidentModal';
 
 interface UserProfile {
   id: string;
@@ -33,6 +34,9 @@ export default function Dashboard() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [showReportModal, setShowReportModal] = useState(false);
+
+  const closeReportModal = () => setShowReportModal(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -331,7 +335,7 @@ export default function Dashboard() {
             {/* TlamatIA Tool */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-xl p-6 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
               <div className="flex items-center space-x-4 mb-6">
-                <div className="w-14 h-14 bg-gradient-to-br from-[#1e5b4f] to-[#002f2a] rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <div className="w-14 h-14 bg-gradient-to-br from-[#1e5b4f] to-[#002f2a] rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
                   <Brain className="w-7 h-7 text-white" />
                 </div>
                 <div>
@@ -408,10 +412,18 @@ export default function Dashboard() {
                       <span className="text-lg">{item.icon}</span>
                     </div>
                     <div className="flex-1">
-                      <p className="font-medium text-foreground group-hover:text-[#9b2247] transition-colors">{item.action}</p>
-                      <p className="text-sm text-slate-500">{item.time}</p>
+                      <div className="flex justify-between items-start">
+                        <h4 className="font-medium text-foreground">{item.action}</h4>
+                        <span className="text-xs text-slate-500">{item.time}</span>
+                      </div>
+                      <div className="flex items-center space-x-2 mt-1">
+                        <span className={`w-2 h-2 rounded-full ${item.type === 'proyecto' ? 'bg-[#9b2247]' :
+                          item.type === 'colaboracion' ? 'bg-[#1e5b4f]' :
+                            item.type === 'datos' ? 'bg-[#a57f2c]' : 'bg-[#161a1d]'
+                          }`}></span>
+                        <span className="text-xs text-slate-500 capitalize">{item.type}</span>
+                      </div>
                     </div>
-                    <div className="w-2 h-2 bg-slate-300 rounded-full group-hover:bg-[#9b2247] transition-colors"></div>
                   </div>
                 ))}
               </div>
@@ -481,7 +493,7 @@ export default function Dashboard() {
                   }
 
                   return (
-                    <button key={index} className="group w-full text-left p-4 rounded-xl hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100 transition-all duration-200 border border-transparent hover:border-slate-200">
+                    <button key={index} onClick={() => setShowReportModal(true)} className="group block w-full text-left p-4 rounded-xl hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100 transition-all duration-200 border border-transparent hover:border-slate-200">
                       {ButtonContent}
                     </button>
                   );
@@ -491,6 +503,13 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Modal de Reporte */}
+      <ReportIncidentModal
+        isOpen={showReportModal}
+        onClose={closeReportModal}
+        user={user}
+      />
     </div>
   );
 }
