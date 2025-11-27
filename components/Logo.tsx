@@ -32,7 +32,7 @@ export default function Logo({ variant = 'header', showText = true, className = 
 
   return (
     <Link href="/" className={`flex items-center space-x-3 ${className}`}>
-      <img
+      <Image
         src="/logo/upscalemedia-transformed.png"
         alt="Cuenca Hub"
         width={size.w}
@@ -41,7 +41,7 @@ export default function Logo({ variant = 'header', showText = true, className = 
       />
       {showText && (
         <div className={variant !== 'footer' ? 'border-l-2 border-neutral pl-3' : ''}>
-          <div className={`font-bold text-foreground tracking-tight ${getTextSize()}`}>
+          <div className={`font-bold ${variant === 'footer' ? 'text-[#e6d194]' : 'text-foreground'} tracking-tight ${getTextSize()}`}>
             Cuenca Hub
           </div>
           {variant === 'header' && (
