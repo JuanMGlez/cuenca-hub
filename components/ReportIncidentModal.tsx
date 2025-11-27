@@ -82,6 +82,7 @@ export default function ReportIncidentModal({ isOpen, onClose, user }: ReportInc
         }
     }, [isOpen]);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateReportForm = (section: keyof ReportForm, field: string, value: any) => {
         setReportForm(prev => ({
             ...prev,
@@ -155,9 +156,9 @@ export default function ReportIncidentModal({ isOpen, onClose, user }: ReportInc
                 measurements: { hasSensor: false },
                 narrative: { description: '', impact: '' }
             });
-        } catch (error: any) {
-            console.error('Error enviando reporte:', error.message, error.details, error.hint, error);
-            alert(`Error al enviar el reporte: ${error.message || 'Por favor intente nuevamente.'}`);
+        } catch (error) {
+            console.error('Error enviando reporte:', error);
+            alert('Error al enviar el reporte. Por favor intente nuevamente.');
         }
     };
 
