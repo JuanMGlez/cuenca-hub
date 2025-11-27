@@ -452,6 +452,12 @@ export default function Dashboard() {
                     icon: '🌍',
                     color: 'from-[#161a1d] to-[#98989A]',
                     href: '/dashboard/projects/explore'
+                  },
+                  {
+                    title: 'Generar Reporte',
+                    subtitle: 'Análisis y métricas',
+                    icon: '📋',
+                    color: 'from-[#611232] to-[#161a1d]'
                   }
                 ].map((action, index) => {
                   const ButtonContent = (
