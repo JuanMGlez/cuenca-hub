@@ -230,7 +230,7 @@ export default function TlamatIA() {
                         <ReactMarkdown
                           components={{
                             img: ({ src, alt, ...props }) => {
-                              if (!src || src.trim() === '') return null;
+                              if (!src || typeof src !== 'string' || src.trim() === '') return null;
                               return (
                                 <img 
                                   src={src} 
