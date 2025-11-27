@@ -1,6 +1,6 @@
 'use client';
 
-import { Play, Download, Share2, Eye, Heart, MessageCircle, ArrowLeft, ChevronRight } from 'lucide-react';
+import { Play, Download, Share2, Eye, Heart, MessageCircle, ArrowLeft, ChevronRight, Calendar, Clock, MapPin, ExternalLink, Copy } from 'lucide-react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
@@ -9,6 +9,17 @@ const MapaCuenca = dynamic(() => import('../../components/MapaCuenca'), { ssr: f
 
 export default function ComunicacionSocial() {
   const [playingVideo, setPlayingVideo] = useState<number | null>(null);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const handleCopyHashtag = async (hashtag: string, index: number) => {
+    try {
+      await navigator.clipboard.writeText(hashtag);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    } catch (err) {
+      console.error('Error al copiar:', err);
+    }
+  };
 
   const testimonials = [
     { 
@@ -73,10 +84,10 @@ export default function ComunicacionSocial() {
       </header>
 
       {/* Hero Video Inmersivo */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-screen min-h-[500px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-charcoal"></div>
         <video
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 w-full h-full object-cover object-center z-0"
           autoPlay
           muted
           loop
@@ -87,11 +98,11 @@ export default function ComunicacionSocial() {
         </video>
         <div className="absolute inset-0 bg-black/80"></div>
 
-        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4 sm:px-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-6 sm:mb-8 leading-tight">
             Historias de Cambio
           </h1>
-          <p className="text-2xl mb-12 text-cream opacity-90 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 text-cream opacity-90 max-w-2xl mx-auto">
             Descubre cómo la ciencia y la tecnología están recuperando nuestra cuenca.
           </p>
         </div>
@@ -165,25 +176,28 @@ export default function ComunicacionSocial() {
       <section className="py-24 px-6" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)' }}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-4xl font-bold text-foreground mb-6">Súmate a la Acción</h2>
-            <p className="text-lg text-foreground max-w-2xl mx-auto">Participa en las iniciativas que están transformando nuestra realidad.</p>
+            <h2 className="text-4xl font-bold text-foreground mb-6">Tendencias Digitales</h2>
+            <p className="text-lg text-foreground max-w-2xl mx-auto">Descubre el impacto de nuestras campañas en redes sociales.</p>
           </div>
 
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {[
-              { title: "#CascaronDeHuevo", engagement: "100k", platform: "Todas las redes", span: "md:col-span-" },
-              { title: "#CuencaLermaSantiago", engagement: "50K", platform: "Instagram", span: "md:col-span-2" },
-              { title: "#RioLerma", engagement: "2k", platform: "X & Linkedin", span: "md:col-span-1" }
+              { title: "#CascaronDeHuevo", engagement: "100k", platform: "Todas las redes", span: "md:col-span-1" },
+              { title: "#CuencaLermaSantiago", engagement: "50K", platform: "Instagram & Facebook", span: "md:col-span-2" },
+              { title: "#BasuraCero", engagement: "141k", platform: "X & Facebook", span: "md:col-span-1" }
             ].map((campaign, index) => (
               <div key={index} className={`bg-gradient-to-br from-primary to-secondary p-8 rounded-2xl text-white text-center group hover:scale-105 transition-transform cursor-pointer ${campaign.span}`}>
-                <h3 className="text-2xl font-bold mb-4">{campaign.title}</h3>
+                <h3 className="text-xl font-bold mb-4">{campaign.title}</h3>
                 <div className="text-4xl font-bold text-cream mb-2">{campaign.engagement}</div>
                 <div className="text-cream opacity-75 mb-6">interacciones</div>
                 <div className="text-sm text-cream">{campaign.platform}</div>
-                <button className="mt-6 bg-charcoal bg-opacity-80 px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all flex items-center space-x-2 mx-auto text-cream">
-                  <Share2 className="w-4 h-4" />
-                  <span>Compartir</span>
+                <button 
+                  onClick={() => handleCopyHashtag(campaign.title, index)}
+                  className="mt-6 bg-charcoal bg-opacity-80 px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all flex items-center space-x-2 mx-auto text-white"
+                >
+                  <Copy className="w-4 h-4" />
+                  <span>{copiedIndex === index ? '¡Copiado!' : 'Copiar Hashtag'}</span>
                 </button>
               </div>
             ))}
@@ -191,25 +205,129 @@ export default function ComunicacionSocial() {
         </div>
       </section>
 
-      {/* CTA Final */}
-      <section className="py-20 px-6 bg-charcoal text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6 text-cream">Tu Voz Importa</h2>
-          <p className="text-xl mb-8 text-cream opacity-90">
-            Comparte tu experiencia, accede a recursos y colabora con nosotros.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <button className="btn-primary px-8 py-4 rounded-xl font-semibold shadow-lg flex items-center space-x-2">
-              <MessageCircle className="w-5 h-5" />
-              <span>Comparte tu Historia</span>
-            </button>
-            <button className="border-2 border-cream text-cream px-8 py-4 rounded-xl font-semibold hover:bg-cream hover:text-charcoal transition-all flex items-center space-x-2">
-              <Download className="w-5 h-5" />
-              <span>Descargar Recursos</span>
-            </button>
+      {/* Llamado a la Acción - Eventos */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl font-bold mb-6" style={{color: '#161a1d'}}>Llamado a la Acción</h2>
+            <p className="text-lg max-w-2xl mx-auto" style={{color: '#98989A'}}>Participa en eventos y campañas comunitarias para la saneación de la cuenca.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Organismo Agua y Saneamiento de Toluca",
+                date: "6 de Noviembre 2025",
+                location: "Toluca, Estado de México",
+                description: "Jornada comunitaria de limpieza y reforestación en las riberas del río.",
+                socialLink: "https://www.facebook.com/share/p/1AeQyU4SFX/",
+                platform: "Facebook"
+              },
+              {
+                title: "Menos Basura, Más Naturaleza",
+                date: "6 de Noviembre de 2025",
+                location: "Mexico",
+                description: "El Gobierno impulsa la limpieza de ríos, caminos y espacios naturales para devolverle vida a nuestro entorno.",
+                socialLink: "https://www.facebook.com/share/p/1Bz4HZGUx7/",
+                platform: "Facebook"
+              },
+              {
+                title: "Plan de Saneamiento y Restauración Ecológica",
+                date: "6 de Noviembre de 2025",
+                location: "Estado de México",
+                description: "Primera Etapa del Plan de Saneamiento y Restauración Ecológica del Río Lerma-Santiago.",
+                socialLink: "https://www.youtube.com/live/vTnUqqrlccw?si=dLIedAZHNPo9kbWv",
+                platform: "YouTube"
+              }
+            ].map((event, index) => (
+              <div key={index} className="group">
+                <div className="p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]" style={{backgroundColor: 'rgba(230, 209, 148, 0.1)', borderColor: 'rgba(165, 127, 44, 0.3)'}} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(155, 34, 71, 0.1)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(230, 209, 148, 0.1)'}>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{backgroundColor: '#1e5b4f'}}>
+                      <Calendar className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-xs px-3 py-1 rounded-full font-medium" style={{backgroundColor: 'rgba(155, 34, 71, 0.1)', color: '#9b2247'}}>
+                      {event.platform}
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold mb-4" style={{color: '#161a1d'}}>{event.title}</h3>
+                  
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-center space-x-3">
+                      <Clock className="w-4 h-4" style={{color: '#a57f2c'}} />
+                      <span className="text-sm font-medium" style={{color: '#98989A'}}>{event.date}</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <MapPin className="w-4 h-4" style={{color: '#a57f2c'}} />
+                      <span className="text-sm font-medium" style={{color: '#98989A'}}>{event.location}</span>
+                    </div>
+                  </div>
+                  
+                  <p className="text-sm leading-relaxed mb-6" style={{color: '#98989A'}}>{event.description}</p>
+                  
+                  <div className="flex justify-center pt-4 border-t" style={{borderColor: 'rgba(165, 127, 44, 0.2)'}}>
+                    <a 
+                      href={event.socialLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105"
+                      style={{backgroundColor: '#9b2247', color: 'white'}}
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span>Ver Campaña</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-6 bg-dark-teal text-neutral">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background: 'linear-gradient(135deg, var(--color-teal), var(--color-charcoal))'}}>
+                  
+                </div>
+                <span className="text-lg font-semibold text-cream">Cuenca Hub</span>
+              </div>
+              <p className="text-sm text-neutral">Plataforma tecnológica para el saneamiento y restauración de la cuenca Lerma-Chapala-Santiago.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-cream">Plataforma</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-neutral hover:text-accent transition-colors">Mapa Interactivo</a></li>
+                <li><a href="#" className="text-neutral hover:text-accent transition-colors">Datos Abiertos</a></li>
+                <li><a href="#" className="text-neutral hover:text-accent transition-colors">Reportes</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-cream">Colaboración</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-neutral hover:text-accent transition-colors">TECNM</a></li>
+                <li><a href="#" className="text-neutral hover:text-accent transition-colors">Universidades</a></li>
+                <li><a href="#" className="text-neutral hover:text-accent transition-colors">Municipios</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-cream">Contacto</h4>
+              <ul className="space-y-2 text-sm text-neutral">
+                <li>info@cuencahub.mx</li>
+                <li>+52 (33) 1234-5678</li>
+                <li>Guadalajara, Jalisco</li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 text-center text-sm border-t text-neutral" style={{borderTopColor: 'var(--color-teal)'}}>
+            <p>&copy; 2025 Cuenca Hub. Todos los derechos reservados.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
