@@ -17,14 +17,14 @@ export default function Home() {
             <span>comecyt.edomex.gob.mx</span>
           </div>
         </div>
-        
+
         {/* Main header */}
         <div className="border-b-4 border-primary">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               {/* Logo section */}
               <Logo variant="header" />
-              
+
               {/* Navigation */}
               <nav className="hidden lg:flex items-center space-x-2">
                 <a href="#inicio" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
@@ -55,11 +55,11 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-32 px-6" style={{background: 'linear-gradient(135deg, var(--color-cream) 0%, color-mix(in srgb, var(--color-cream) 30%, transparent) 50%, #f8fafc 100%)'}}>
+      <section className="relative py-32 px-6" style={{ background: 'linear-gradient(135deg, var(--color-cream) 0%, color-mix(in srgb, var(--color-cream) 30%, transparent) 50%, #f8fafc 100%)' }}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-5xl mx-auto">
             <div className="mb-8">
-              <span className="inline-block text-sm font-semibold px-4 py-2 rounded-full mb-4 uppercase tracking-wide text-primary" style={{backgroundColor: 'color-mix(in srgb, var(--color-teal) 10%, transparent)'}}>
+              <span className="inline-block text-sm font-semibold px-4 py-2 rounded-full mb-4 uppercase tracking-wide text-primary" style={{ backgroundColor: 'color-mix(in srgb, var(--color-teal) 10%, transparent)' }}>
                 Iniciativa Nacional
               </span>
             </div>
@@ -88,10 +88,10 @@ export default function Home() {
             <h2 className="text-4xl font-bold text-slate-900 mb-6">Capacidades del Sistema</h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">Infraestructura tecnológica para el monitoreo y coordinación ambiental</p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {/* Visualización */}
-            <div className="p-10 rounded-lg border-l-4 border-primary card-hover" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 10%, transparent)'}}>
+            <div className="p-10 rounded-lg border-l-4 border-primary card-hover" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 10%, transparent)' }}>
               <div className="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-6">
                 <BarChart3 className="w-8 h-8 text-white" />
               </div>
@@ -100,8 +100,8 @@ export default function Home() {
             </div>
 
             {/* Monitoreo */}
-            <div className="p-10 rounded-lg border-l-4 border-accent card-hover" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 10%, transparent)'}}>
-              <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-6" style={{backgroundColor: 'var(--color-gold)'}}>
+            <div className="p-10 rounded-lg border-l-4 border-accent card-hover" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 10%, transparent)' }}>
+              <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-6" style={{ backgroundColor: 'var(--color-gold)' }}>
                 <Shield className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-foreground">Tecnología que Une</h3>
@@ -109,7 +109,7 @@ export default function Home() {
             </div>
 
             {/* Colaboración */}
-            <div className="p-10 rounded-lg border-l-4 card-hover" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 10%, transparent)', borderLeftColor: 'var(--color-burgundy)'}}>
+            <div className="p-10 rounded-lg border-l-4 card-hover" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 10%, transparent)', borderLeftColor: 'var(--color-burgundy)' }}>
               <div className="w-16 h-16 bg-secondary rounded-lg flex items-center justify-center mb-6">
                 <Globe className="w-8 h-8 text-white" />
               </div>
@@ -152,21 +152,23 @@ export default function Home() {
               <MapPin className="w-4 h-4 text-[#9b2247]" />
               <span className="text-sm font-semibold text-[#9b2247]">Monitoreo en Tiempo Real</span>
             </div>
-            
+
             <h2 className="text-4xl md:text-5xl font-bold text-[#161a1d] mb-6">
               Visualiza el Estado de la{' '}
               <span className="bg-gradient-to-r from-[#9b2247] to-[#1e5b4f] bg-clip-text text-transparent">Cuenca</span>
             </h2>
-            
+
             <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              Explora alertas tempranas, proyectos de restauración activos y testimonios de la comunidad 
+              Explora alertas tempranas, proyectos de restauración activos y testimonios de la comunidad
               en nuestro mapa interactivo de la cuenca Lerma-Chapala-Santiago.
             </p>
           </div>
 
           <div className="relative">
-            <LandingMap />
-            
+            <div className="h-[600px] w-full relative rounded-2xl overflow-hidden shadow-xl border border-slate-200">
+              <LandingMap />
+            </div>
+
             {/* Leyenda */}
             <div className="mt-8 grid md:grid-cols-3 gap-6">
               <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg">
@@ -180,7 +182,7 @@ export default function Home() {
                   Zonas de riesgo identificadas con código de colores para proteger la salud pública y el ecosistema.
                 </p>
               </div>
-              
+
               <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
@@ -192,7 +194,7 @@ export default function Home() {
                   Iniciativas activas de universidades, ONGs y gobierno trabajando en la recuperación de la cuenca.
                 </p>
               </div>
-              
+
               <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-10 h-10 bg-[#9b2247]/10 rounded-xl flex items-center justify-center">
@@ -216,17 +218,17 @@ export default function Home() {
             <h2 className="text-4xl font-bold text-foreground mb-6">Historias de la Cuenca</h2>
             <p className="text-xl text-neutral max-w-3xl mx-auto">Relatos que inspiran y movilizan hacia la recuperación de nuestro entorno.</p>
           </div>
-          
+
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16 ">
             {/* Video principal */}
-            <div className="relative p-8 rounded-3xl" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)'}}>
+            <div className="relative p-8 rounded-3xl" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)' }}>
               <div className="aspect-video rounded-2xl overflow-hidden shadow-lg">
-                <iframe 
-                  src="https://www.youtube.com/embed/YSfxNTcpAx8?si=GXyxUC-S1gXfPNfI" 
+                <iframe
+                  src="https://www.youtube.com/embed/YSfxNTcpAx8?si=GXyxUC-S1gXfPNfI"
                   title="Voces del Cambio"
                   className="w-full h-full"
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 ></iframe>
               </div>
@@ -235,10 +237,10 @@ export default function Home() {
                 <p className="text-neutral">Conoce las iniciativas de restauración y conservación en nuestra cuenca</p>
               </div>
             </div>
-            
+
             {/* Storytelling cards */}
             <div className="space-y-6">
-              <div className="flex items-start space-x-4 p-6 rounded-xl" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)'}}>
+              <div className="flex items-start space-x-4 p-6 rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)' }}>
                 <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center flex-shrink-0">
                   <Users className="w-6 h-6 text-white" />
                 </div>
@@ -247,8 +249,8 @@ export default function Home() {
                   <p className="text-neutral text-sm">Historias reales de impacto y transformación comunitaria</p>
                 </div>
               </div>
-              
-              <div className="flex items-start space-x-4 p-6 rounded-xl" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)'}}>
+
+              <div className="flex items-start space-x-4 p-6 rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)' }}>
                 <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center flex-shrink-0">
                   <BarChart3 className="w-6 h-6 text-white" />
                 </div>
@@ -257,8 +259,8 @@ export default function Home() {
                   <p className="text-neutral text-sm">Datos ambientales visualizados para fácil comprensión</p>
                 </div>
               </div>
-              
-              <div className="flex items-start space-x-4 p-6 rounded-xl" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)'}}>
+
+              <div className="flex items-start space-x-4 p-6 rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)' }}>
                 <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
                   <Globe className="w-6 h-6 text-white" />
                 </div>
@@ -267,9 +269,9 @@ export default function Home() {
                   <p className="text-neutral text-sm">Contenido multimedia para redes sociales y medios</p>
                 </div>
               </div>
-              
-              <div className="flex items-start space-x-4 p-6 rounded-xl" style={{backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)'}}>
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#8B4513'}}>
+
+              <div className="flex items-start space-x-4 p-6 rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--color-cream) 15%, transparent)' }}>
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#8B4513' }}>
                   <Zap className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -279,7 +281,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
+
           {/* Call to action para contenido */}
           <div className="text-center">
             <Link href="/comunicacion-social" className="inline-block bg-secondary text-white px-8 py-4 rounded-xl font-semibold hover:bg-opacity-90 transition-all shadow-lg">
@@ -340,7 +342,7 @@ export default function Home() {
               </ul>
             </div>
           </div>
-          <div className="mt-8 pt-8 text-center text-sm border-t text-neutral" style={{borderTopColor: 'var(--color-teal)'}}>
+          <div className="mt-8 pt-8 text-center text-sm border-t text-neutral" style={{ borderTopColor: 'var(--color-teal)' }}>
             <p>&copy; 2025 Cuenca Hub. Todos los derechos reservados.</p>
           </div>
         </div>
