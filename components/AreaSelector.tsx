@@ -27,7 +27,7 @@ const DrawingControl = dynamic(() => Promise.resolve(({ onPolygonComplete, isDra
   const { useMapEvents } = require('react-leaflet');
 
   const map = useMapEvents({
-    click(e) {
+    click(e: any) {
       if (isDrawing) {
         const newPoint: LatLngExpression = [e.latlng.lat, e.latlng.lng];
         const updatedPolygon = [...currentPolygon, newPoint];
