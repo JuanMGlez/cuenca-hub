@@ -394,12 +394,12 @@ export default function WaterQualityDashboard({ onDataUpdate }: WaterQualityDash
                       <RadialBar dataKey="value" cornerRadius={8} fill={getHealthScoreColor(healthScore).color} />
                     </RadialBarChart>
                   </ResponsiveContainer>
-                  <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute inset-0 flex items-center justify-center px-4">
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-[#1e5b4f]">{healthScore}</div>
-                      <div className="text-sm text-[#1e5b4f] font-medium">Cuenca L-C-S</div>
-                      <div className="text-xs text-slate-500 mt-1">
-                        {healthScore >= 80 ? 'Excelente' : healthScore >= 60 ? 'Buena' : 'Requiere Atención'}
+                      <div className="text-2xl font-bold text-[#1e5b4f]">{healthScore}</div>
+                      <div className="text-[10px] text-[#1e5b4f] font-medium">L-C-S</div>
+                      <div className="text-[10px] text-slate-500 mt-0.5">
+                        {healthScore >= 80 ? 'Excelente' : healthScore >= 60 ? 'Buena' : 'Atención'}
                       </div>
                     </div>
                   </div>
