@@ -20,11 +20,11 @@ export default function Argos() {
 
   const [waterQualityData, setWaterQualityData] = useState(null);
   const [showReportModal, setShowReportModal] = useState(false);
-  const [reports, setReports] = useState([]);
+  const [reports, setReports] = useState<any[]>([]);
   const [loadingReports, setLoadingReports] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [sensorDevices, setSensorDevices] = useState([]);
-  const [sensorReadings, setSensorReadings] = useState([]);
+  const [sensorDevices, setSensorDevices] = useState<any[]>([]);
+  const [sensorReadings, setSensorReadings] = useState<any[]>([]);
 
   useEffect(() => {
     
