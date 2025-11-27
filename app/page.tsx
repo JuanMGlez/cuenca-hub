@@ -1,10 +1,10 @@
 'use client';
 
 import { BarChart3, Eye, Users, Droplets, MapPin, Shield, Zap, Globe, Target, MessageCircle } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import LandingMap from '@/components/LandingMap';
 import Logo from '@/components/Logo';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
@@ -28,20 +28,16 @@ export default function Home() {
 
               {/* Navigation */}
               <nav className="hidden lg:flex items-center space-x-2">
-                <a href="#inicio" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
-                  <span>Inicio</span>
+                <a href="#capacidades" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
+                  <span>Capacidades del sistema</span>
                   <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></div>
                 </a>
-                <a href="#plataforma" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
-                  <span>Plataforma</span>
+                <a href="#reportes" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
+                  <span>Reportes</span>
                   <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></div>
                 </a>
-                <a href="#datos" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
-                  <span>Datos Abiertos</span>
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></div>
-                </a>
-                <a href="#colaboracion" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
-                  <span>Colaboración</span>
+                <a href="#historias" className="px-4 py-2 text-foreground hover:text-primary transition-colors font-medium relative group">
+                  <span>Historias de la cuenca</span>
                   <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></div>
                 </a>
                 <div className="ml-6 pl-6 border-l border-neutral border-opacity-20">
@@ -80,7 +76,7 @@ export default function Home() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-24 px-6 bg-white border-t border-slate-200">
+      <section id='capacidades' className="py-24 px-6 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-4xl font-bold text-slate-900 mb-6">Capacidades del Sistema</h2>
@@ -143,7 +139,7 @@ export default function Home() {
       </section>
 
       {/* Mapa Interactivo Section */}
-      <section className="py-24 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50">
+      <section id='reportes' className="py-24 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-[#9b2247]/10 to-[#1e5b4f]/10 px-4 py-2 rounded-full mb-6">
@@ -210,7 +206,7 @@ export default function Home() {
       </section>
 
       {/* Comunicación Social Section */}
-      <section className="py-24 px-6 bg-white">
+      <section id='historias' className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-6">Historias de la Cuenca</h2>
@@ -308,52 +304,8 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-dark-teal text-neutral">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-5 gap-8">
-            <div>
-              <Logo variant="footer" className="mb-4" />
-              <p className="text-sm text-neutral text-justify">Plataforma tecnológica para el saneamiento y restauración de la cuenca Lerma-Chapala-Santiago.</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-3 text-cream">Plataforma</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-neutral hover:text-accent transition-colors">Mapa Interactivo</a></li>
-                <li><a href="#" className="text-neutral hover:text-accent transition-colors">Datos Abiertos</a></li>
-                <li><a href="#" className="text-neutral hover:text-accent transition-colors">Reportes</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-3 text-cream">Colaboración</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-neutral hover:text-accent transition-colors">TECNM</a></li>
-                <li><a href="#" className="text-neutral hover:text-accent transition-colors">Universidades</a></li>
-                <li><a href="#" className="text-neutral hover:text-accent transition-colors">Municipios</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-3 text-cream">Contacto</h4>
-              <ul className="space-y-2 text-sm text-neutral">
-                <li>info@cuencahub.mx</li>
-                <li>+52 (33) 1234-5678</li>
-                <li>Guadalajara, Jalisco</li>
-              </ul>
-            </div>
-            <div className="backdrop-blur-sm">
-              <Image
-                src="/logo/Copernicus_logo.jpg"
-                alt="Copernicus Logo"
-                width={200}
-                height={80}
-                className="object-contain mix-blend-multiply"
-              />
-            </div>
-          </div>
-          <div className="mt-8 pt-8 text-center text-sm border-t text-neutral" style={{ borderTopColor: 'var(--color-teal)' }}>
-            <p>&copy; 2025 Cuenca Hub. Todos los derechos reservados.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
+
     </div>
   );
 }

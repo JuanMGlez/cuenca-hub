@@ -49,7 +49,7 @@ export default function Dashboard() {
         .from('devices')
         .select('*')
         .eq('status', 'active');
-      
+
       if (!error && data) {
         setSensorDevices(data);
       }
@@ -65,7 +65,7 @@ export default function Dashboard() {
         .select('*')
         .order('created_at', { ascending: false })
         .limit(10);
-      
+
       if (!error && data) {
         setReports(data);
       }
@@ -80,7 +80,7 @@ export default function Dashboard() {
         .from('reports')
         .update({ status: newStatus })
         .eq('id', reportId);
-      
+
       if (!error) {
         loadReports();
       }
@@ -280,75 +280,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Modern Stats Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: BarChart3,
-                title: 'Proyectos',
-                value: '3',
-                subtitle: 'Proyectos activos',
-                color: 'from-[#9b2247] to-[#611232]',
-                bgColor: 'bg-[#9b2247]/10',
-                textColor: 'text-[#9b2247]',
-                trend: '+12%'
-              },
-              {
-                icon: Users,
-                title: 'Colaboradores',
-                value: '12',
-                subtitle: 'Red de contactos',
-                color: 'from-[#1e5b4f] to-[#002f2a]',
-                bgColor: 'bg-[#1e5b4f]/10',
-                textColor: 'text-[#1e5b4f]',
-                trend: '+8%'
-              },
-              {
-                icon: FileText,
-                title: 'Publicaciones',
-                value: '8',
-                subtitle: 'Artículos compartidos',
-                color: 'from-[#a57f2c] to-[#e6d194]',
-                bgColor: 'bg-[#a57f2c]/10',
-                textColor: 'text-[#a57f2c]',
-                trend: '+24%'
-              },
-              {
-                icon: Settings,
-                title: 'Configuración',
-                value: '95%',
-                subtitle: 'Perfil completado',
-                color: 'from-[#161a1d] to-[#98989A]',
-                bgColor: 'bg-[#161a1d]/10',
-                textColor: 'text-[#161a1d]',
-                trend: 'Actualizar'
-              }
-            ].map((card, index) => (
-              <div key={index} className="group relative">
-                <div className="relative bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${card.color} rounded-xl flex items-center justify-center shadow-lg`}>
-                      <card.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className={`px-2 py-1 ${card.bgColor} ${card.textColor} rounded-full text-xs font-medium`}>
-                      {card.trend}
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <h3 className="font-semibold text-slate-700">{card.title}</h3>
-                    <p className={`text-3xl font-bold ${card.textColor}`}>{card.value}</p>
-                    <p className="text-sm text-slate-500">{card.subtitle}</p>
-                  </div>
-
-                  <div className="mt-4 h-1 bg-slate-100 rounded-full overflow-hidden">
-                    <div className={`h-full bg-gradient-to-r ${card.color} rounded-full transition-all duration-1000`} style={{ width: `${60 + index * 10}%` }}></div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
           {/* API IoT Section */}
           <div className="bg-gradient-to-r from-[#1e5b4f]/10 via-[#002f2a]/5 to-[#1e5b4f]/10 rounded-2xl border border-[#1e5b4f]/30 p-6 mb-8">
             <div className="flex items-start justify-between mb-4">
@@ -363,7 +294,7 @@ export default function Dashboard() {
               </div>
               <div className="px-3 py-1 bg-[#1e5b4f]/10 text-[#1e5b4f] rounded-full text-xs font-medium">Beta</div>
             </div>
-            
+
             <div className="grid md:grid-cols-3 gap-4 mb-4">
               <div className="bg-white/60 p-4 rounded-xl border border-[#1e5b4f]/20">
                 <div className="text-2xl mb-2">📡</div>
@@ -381,7 +312,7 @@ export default function Dashboard() {
                 <p className="text-xs text-[#161a1d]/60">Monitoreo de estado y salud de dispositivos conectados</p>
               </div>
             </div>
-            
+
             <div className="flex items-center justify-between bg-white/60 p-4 rounded-xl border border-[#1e5b4f]/20">
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-[#1e5b4f] rounded-full animate-pulse"></div>
@@ -410,14 +341,13 @@ export default function Dashboard() {
                     <button
                       key={filter}
                       onClick={() => setFilterUrgency(filter as any)}
-                      className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
-                        filterUrgency === filter
-                          ? filter === 'emergency' ? 'bg-[#9b2247] text-white' :
-                            filter === 'caution' ? 'bg-[#a57f2c] text-white' :
+                      className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${filterUrgency === filter
+                        ? filter === 'emergency' ? 'bg-[#9b2247] text-white' :
+                          filter === 'caution' ? 'bg-[#a57f2c] text-white' :
                             filter === 'info' ? 'bg-[#1e5b4f] text-white' :
-                            'bg-[#161a1d] text-white'
-                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                      }`}
+                              'bg-[#161a1d] text-white'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        }`}
                     >
                       {filter === 'all' ? 'Todos' : filter === 'emergency' ? '🔴' : filter === 'caution' ? '🟡' : '🟢'}
                     </button>
@@ -459,7 +389,7 @@ export default function Dashboard() {
                     default: return '⚠️';
                   }
                 };
-                
+
                 const getIncidentName = (type: string) => {
                   switch (type) {
                     case 'descarga_residual': return 'Descarga Residual';
@@ -472,36 +402,33 @@ export default function Dashboard() {
                 };
 
                 return (
-                  <div key={report.id} className={`group p-4 rounded-xl border transition-all hover:shadow-md ${
-                    report.urgency === 'emergency' ? 'bg-[#9b2247]/5 border-[#9b2247]/30 hover:bg-[#9b2247]/10' :
+                  <div key={report.id} className={`group p-4 rounded-xl border transition-all hover:shadow-md ${report.urgency === 'emergency' ? 'bg-[#9b2247]/5 border-[#9b2247]/30 hover:bg-[#9b2247]/10' :
                     report.urgency === 'caution' ? 'bg-[#a57f2c]/5 border-[#a57f2c]/30 hover:bg-[#a57f2c]/10' :
-                    'bg-[#1e5b4f]/5 border-[#1e5b4f]/30 hover:bg-[#1e5b4f]/10'
-                  }`}>
+                      'bg-[#1e5b4f]/5 border-[#1e5b4f]/30 hover:bg-[#1e5b4f]/10'
+                    }`}>
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center space-x-3">
                         <div className="text-2xl">{getIncidentIcon(report.incident_type)}</div>
                         <div>
-                          <p className={`font-bold text-sm ${
-                            report.urgency === 'emergency' ? 'text-[#611232]' :
+                          <p className={`font-bold text-sm ${report.urgency === 'emergency' ? 'text-[#611232]' :
                             report.urgency === 'caution' ? 'text-[#a57f2c]' :
-                            'text-[#002f2a]'
-                          }`}>
+                              'text-[#002f2a]'
+                            }`}>
                             {getIncidentName(report.incident_type)}
                           </p>
                           <p className="text-xs text-slate-600">📍 {report.municipality}</p>
                         </div>
                       </div>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        report.urgency === 'emergency' ? 'bg-[#9b2247]/20 text-[#611232]' :
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${report.urgency === 'emergency' ? 'bg-[#9b2247]/20 text-[#611232]' :
                         report.urgency === 'caution' ? 'bg-[#a57f2c]/20 text-[#a57f2c]' :
-                        'bg-[#1e5b4f]/20 text-[#002f2a]'
-                      }`}>
+                          'bg-[#1e5b4f]/20 text-[#002f2a]'
+                        }`}>
                         {report.urgency === 'emergency' ? '🔴 Urgente' : report.urgency === 'caution' ? '🟡 Precaución' : '🟢 Info'}
                       </span>
                     </div>
-                    
+
                     <p className="text-sm text-slate-600 mb-3 line-clamp-2">{report.reference}</p>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         <span className="text-xs text-slate-500">
@@ -510,11 +437,10 @@ export default function Dashboard() {
                         <select
                           value={report.status || 'open'}
                           onChange={(e) => updateReportStatus(report.id, e.target.value)}
-                          className={`text-xs font-medium px-2 py-1 rounded border transition-all ${
-                            report.status === 'resolved' ? 'bg-green-50 text-green-700 border-green-200' :
+                          className={`text-xs font-medium px-2 py-1 rounded border transition-all ${report.status === 'resolved' ? 'bg-green-50 text-green-700 border-green-200' :
                             report.status === 'in_progress' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                            'bg-slate-50 text-slate-700 border-slate-200'
-                          }`}
+                              'bg-slate-50 text-slate-700 border-slate-200'
+                            }`}
                         >
                           <option value="open">🔵 Abierto</option>
                           <option value="in_progress">🟡 En Progreso</option>
