@@ -41,7 +41,7 @@ export default function Logo({ variant = 'header', showText = true, className = 
       />
       {showText && (
         <div className={variant !== 'footer' ? 'border-l-2 border-neutral pl-3' : ''}>
-          <div className={`font-bold text-foreground tracking-tight ${getTextSize()}`}>
+          <div className={`font-bold tracking-tight ${getTextSize()}`} style={{color: variant === 'header' ? '#161a1d' : '#e6d194'}}>
             Cuenca Hub
           </div>
           {variant === 'header' && (

@@ -341,7 +341,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-8 pt-8 text-center text-sm border-t text-neutral" style={{borderTopColor: 'var(--color-teal)'}}>
-            <p>&copy; 2025 Cuenca Hub. Todos los derechos reservados.</p>
+            <p>&copy; 2025 <span style={{color: '#e6d194'}}>Cuenca Hub</span>. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
