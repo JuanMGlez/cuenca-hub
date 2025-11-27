@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
-import { LogOut, BarChart3, Users, FileText, Settings, User as UserIcon, Building, MapPin, Map, MessageCircle, Activity, Brain } from 'lucide-react';
+import { LogOut, BarChart3, Users, FileText, Settings, User as UserIcon, Building, MapPin, Map, MessageCircle, Activity, Brain, Activity as ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import ReportIncidentModal from '@/components/ReportIncidentModal';
+import RegisterDeviceModal from '@/components/RegisterDeviceModal';
 
 interface UserProfile {
   id: string;
@@ -35,8 +36,25 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [showReportModal, setShowReportModal] = useState(false);
+  const [sensorDevices, setSensorDevices] = useState<any[]>([]);
+  const [showRegisterDevice, setShowRegisterDevice] = useState(false);
 
   const closeReportModal = () => setShowReportModal(false);
+
+  const loadSensorDevices = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('devices')
+        .select('*')
+        .eq('status', 'active');
+      
+      if (!error && data) {
+        setSensorDevices(data);
+      }
+    } catch (error) {
+      console.error('Error cargando sensores:', error);
+    }
+  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -64,6 +82,7 @@ export default function Dashboard() {
       setLoading(false);
     };
 
+    loadSensorDevices();
     getUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -296,6 +315,52 @@ export default function Dashboard() {
             ))}
           </div>
 
+          {/* API IoT Section */}
+          <div className="bg-gradient-to-r from-[#1e5b4f]/10 via-[#002f2a]/5 to-[#1e5b4f]/10 rounded-2xl border border-[#1e5b4f]/30 p-6 mb-8">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#1e5b4f] to-[#002f2a] rounded-xl flex items-center justify-center shadow-lg">
+                  <Activity className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-[#1e5b4f]">API Abierta para Dispositivos IoT</h3>
+                  <p className="text-sm text-[#161a1d]/60">Conecta tus sensores y balizas de monitoreo</p>
+                </div>
+              </div>
+              <div className="px-3 py-1 bg-[#1e5b4f]/10 text-[#1e5b4f] rounded-full text-xs font-medium">Beta</div>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-4 mb-4">
+              <div className="bg-white/60 p-4 rounded-xl border border-[#1e5b4f]/20">
+                <div className="text-2xl mb-2">📡</div>
+                <h4 className="font-bold text-[#161a1d] text-sm mb-1">Device Ingestion API</h4>
+                <p className="text-xs text-[#161a1d]/60">Envía datos desde cualquier sensor compatible con HTTP/MQTT/WebSocket</p>
+              </div>
+              <div className="bg-white/60 p-4 rounded-xl border border-[#1e5b4f]/20">
+                <div className="text-2xl mb-2">📊</div>
+                <h4 className="font-bold text-[#161a1d] text-sm mb-1">Sensor Data API</h4>
+                <p className="text-xs text-[#161a1d]/60">Consulta datos históricos y en tiempo real de todos los dispositivos</p>
+              </div>
+              <div className="bg-white/60 p-4 rounded-xl border border-[#1e5b4f]/20">
+                <div className="text-2xl mb-2">⚡</div>
+                <h4 className="font-bold text-[#161a1d] text-sm mb-1">Telemetry API</h4>
+                <p className="text-xs text-[#161a1d]/60">Monitoreo de estado y salud de dispositivos conectados</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between bg-white/60 p-4 rounded-xl border border-[#1e5b4f]/20">
+              <div className="flex items-center space-x-3">
+                <div className="w-2 h-2 bg-[#1e5b4f] rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-[#161a1d]">Protocolos soportados: HTTP, MQTT, WebSocket</span>
+              </div>
+              <Link href="/api-docs">
+                <button className="px-4 py-2 bg-gradient-to-r from-[#1e5b4f] to-[#002f2a] text-white rounded-lg text-sm font-medium hover:shadow-lg transition-all">
+                  Ver Documentación
+                </button>
+              </Link>
+            </div>
+          </div>
+
           {/* Tools Section */}
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             {/* Argos Tool */}
@@ -369,63 +434,67 @@ export default function Dashboard() {
 
           {/* Modern Content Grid */}
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Enhanced Activity Feed */}
+            {/* Sensor Coverage Report */}
             <div className="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-xl p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-foreground">Actividad Reciente</h3>
-                <button className="text-sm text-primary hover:text-primary/80 font-medium">Ver todo</button>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-[#1e5b4f] to-[#002f2a] rounded-xl flex items-center justify-center">
+                    <Activity className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground">Cobertura de Sensores</h3>
+                </div>
+                <button onClick={() => setShowRegisterDevice(true)} className="text-sm text-[#1e5b4f] hover:text-[#002f2a] font-medium">+ Registrar Sensor</button>
               </div>
 
-              <div className="space-y-4">
-                {[
-                  {
-                    action: 'Nuevo proyecto creado',
-                    time: 'Hace 2 horas',
-                    type: 'proyecto',
-                    icon: '🚀',
-                    color: 'bg-[#9b2247]'
-                  },
-                  {
-                    action: 'Colaborador agregado',
-                    time: 'Hace 1 día',
-                    type: 'colaboracion',
-                    icon: '👥',
-                    color: 'bg-[#1e5b4f]'
-                  },
-                  {
-                    action: 'Datos actualizados',
-                    time: 'Hace 3 días',
-                    type: 'datos',
-                    icon: '📊',
-                    color: 'bg-[#a57f2c]'
-                  },
-                  {
-                    action: 'Publicación compartida',
-                    time: 'Hace 1 semana',
-                    type: 'publicacion',
-                    icon: '📄',
-                    color: 'bg-[#161a1d]'
-                  }
-                ].map((item, index) => (
-                  <div key={index} className="group flex items-center space-x-4 p-4 rounded-xl hover:bg-slate-50/80 transition-all duration-200 cursor-pointer">
-                    <div className={`w-10 h-10 ${item.color} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-200`}>
-                      <span className="text-lg">{item.icon}</span>
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="bg-gradient-to-br from-[#1e5b4f]/10 to-[#1e5b4f]/5 p-4 rounded-xl border border-[#1e5b4f]/20">
+                  <div className="text-3xl font-bold text-[#1e5b4f] mb-1">{sensorDevices.length}</div>
+                  <div className="text-sm text-[#161a1d]/60">Sensores Activos</div>
+                </div>
+                <div className="bg-gradient-to-br from-[#9b2247]/10 to-[#9b2247]/5 p-4 rounded-xl border border-[#9b2247]/20">
+                  <div className="text-3xl font-bold text-[#9b2247] mb-1">{sensorDevices.filter(d => d.type === 'water_quality').length}</div>
+                  <div className="text-sm text-[#161a1d]/60">Calidad de Agua</div>
+                </div>
+                <div className="bg-gradient-to-br from-[#a57f2c]/10 to-[#a57f2c]/5 p-4 rounded-xl border border-[#a57f2c]/20">
+                  <div className="text-3xl font-bold text-[#a57f2c] mb-1">{sensorDevices.filter(d => d.type === 'hydrology').length}</div>
+                  <div className="text-sm text-[#161a1d]/60">Hidrología</div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {sensorDevices.map((sensor, index) => (
+                  <div key={index} className="group flex items-center space-x-4 p-4 rounded-xl hover:bg-slate-50/80 transition-all duration-200 cursor-pointer border border-transparent hover:border-[#1e5b4f]/20">
+                    <div className={`w-12 h-12 ${sensor.type === 'water_quality' ? 'bg-[#1e5b4f]' : 'bg-[#9b2247]'} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-200`}>
+                      <span className="text-xl">{sensor.type === 'water_quality' ? '💧' : '🌊'}</span>
                     </div>
                     <div className="flex-1">
-                      <div className="flex justify-between items-start">
-                        <h4 className="font-medium text-foreground">{item.action}</h4>
-                        <span className="text-xs text-slate-500">{item.time}</span>
+                      <div className="flex justify-between items-start mb-1">
+                        <h4 className="font-bold text-foreground">{sensor.name}</h4>
+                        <div className="flex items-center space-x-1">
+                          <div className="w-2 h-2 bg-[#1e5b4f] rounded-full animate-pulse"></div>
+                          <span className="text-xs text-[#1e5b4f] font-medium">
+                            {sensor.last_seen ? new Date(sensor.last_seen).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) : 'Sin datos'}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-center space-x-2 mt-1">
-                        <span className={`w-2 h-2 rounded-full ${item.type === 'proyecto' ? 'bg-[#9b2247]' :
-                          item.type === 'colaboracion' ? 'bg-[#1e5b4f]' :
-                            item.type === 'datos' ? 'bg-[#a57f2c]' : 'bg-[#161a1d]'
-                          }`}></span>
-                        <span className="text-xs text-slate-500 capitalize">{item.type}</span>
+                      <div className="flex items-center space-x-3">
+                        <span className="text-sm text-[#161a1d]/60">{sensor.type === 'water_quality' ? 'Calidad de Agua' : 'Hidrología'}</span>
+                        <span className="w-1 h-1 bg-[#161a1d]/30 rounded-full"></span>
+                        <span className="text-sm text-[#161a1d]/60">📍 {sensor.municipality}</span>
                       </div>
                     </div>
                   </div>
                 ))}
+              </div>
+
+              <div className="mt-6 p-4 bg-gradient-to-r from-[#1e5b4f]/5 to-[#9b2247]/5 rounded-xl border border-[#1e5b4f]/20">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-[#1e5b4f] rounded-full animate-pulse"></div>
+                    <span className="text-sm font-medium text-[#161a1d]">Cobertura actual: {new Set(sensorDevices.map(d => d.municipality)).size} municipios monitoreados</span>
+                  </div>
+                  <Link href="/argos" className="text-sm text-[#1e5b4f] hover:text-[#002f2a] font-medium">Ver en Argos →</Link>
+                </div>
               </div>
             </div>
 
@@ -509,6 +578,15 @@ export default function Dashboard() {
         isOpen={showReportModal}
         onClose={closeReportModal}
         user={user}
+      />
+
+      {/* Modal de Registro de Dispositivo */}
+      <RegisterDeviceModal
+        isOpen={showRegisterDevice}
+        onClose={() => {
+          setShowRegisterDevice(false);
+          loadSensorDevices();
+        }}
       />
     </div>
   );
