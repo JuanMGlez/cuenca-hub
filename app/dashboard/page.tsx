@@ -368,66 +368,7 @@ export default function Dashboard() {
           </div>
 
           {/* Modern Content Grid */}
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Enhanced Activity Feed */}
-            <div className="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-xl p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-foreground">Actividad Reciente</h3>
-                <button className="text-sm text-primary hover:text-primary/80 font-medium">Ver todo</button>
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  {
-                    action: 'Nuevo proyecto creado',
-                    time: 'Hace 2 horas',
-                    type: 'proyecto',
-                    icon: '🚀',
-                    color: 'bg-[#9b2247]'
-                  },
-                  {
-                    action: 'Colaborador agregado',
-                    time: 'Hace 1 día',
-                    type: 'colaboracion',
-                    icon: '👥',
-                    color: 'bg-[#1e5b4f]'
-                  },
-                  {
-                    action: 'Datos actualizados',
-                    time: 'Hace 3 días',
-                    type: 'datos',
-                    icon: '📊',
-                    color: 'bg-[#a57f2c]'
-                  },
-                  {
-                    action: 'Publicación compartida',
-                    time: 'Hace 1 semana',
-                    type: 'publicacion',
-                    icon: '📄',
-                    color: 'bg-[#161a1d]'
-                  }
-                ].map((item, index) => (
-                  <div key={index} className="group flex items-center space-x-4 p-4 rounded-xl hover:bg-slate-50/80 transition-all duration-200 cursor-pointer">
-                    <div className={`w-10 h-10 ${item.color} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-200`}>
-                      <span className="text-lg">{item.icon}</span>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start">
-                        <h4 className="font-medium text-foreground">{item.action}</h4>
-                        <span className="text-xs text-slate-500">{item.time}</span>
-                      </div>
-                      <div className="flex items-center space-x-2 mt-1">
-                        <span className={`w-2 h-2 rounded-full ${item.type === 'proyecto' ? 'bg-[#9b2247]' :
-                          item.type === 'colaboracion' ? 'bg-[#1e5b4f]' :
-                            item.type === 'datos' ? 'bg-[#a57f2c]' : 'bg-[#161a1d]'
-                          }`}></span>
-                        <span className="text-xs text-slate-500 capitalize">{item.type}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="grid gap-8">
 
             {/* Enhanced Quick Actions */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-xl p-6">

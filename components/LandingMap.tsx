@@ -460,7 +460,7 @@ export default function LandingMap() {
           <Users className="w-4 h-4 text-[#1e5b4f]" />
           <span className="text-sm font-bold text-slate-700">Adopta un Tramo</span>
         </div>
-        <p className="text-xs text-slate-600 mb-2">14 tramos adoptados, 6 disponibles</p>
+        <p className="text-xs text-slate-600 mb-2">14 tramos adoptados</p>
         <div className="text-xs text-slate-500 mb-2">
           <div className="flex items-center space-x-1 mb-1">
             <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
@@ -471,9 +471,6 @@ export default function LandingMap() {
             <span>TECNM - Ocotlán Sur</span>
           </div>
         </div>
-        <button className="text-xs bg-[#1e5b4f] text-white px-3 py-1 rounded hover:bg-[#002f2a] transition-colors">
-          Ver Disponibles
-        </button>
       </div>
 
       {/* Modal de Reporte */}
