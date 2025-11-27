@@ -308,7 +308,7 @@ export default function Dashboard() {
                   <p className="text-sm text-slate-600">Sistema de Monitoreo Activo</p>
                 </div>
               </div>
-              
+
               <div className="space-y-3 mb-6">
                 <div className="flex items-center space-x-3 text-sm">
                   <Activity className="w-4 h-4 text-[#9b2247]" />
@@ -323,7 +323,7 @@ export default function Dashboard() {
                   <span className="text-slate-700">Monitoreo de cuencas hidrográficas</span>
                 </div>
               </div>
-              
+
               <Link href="/argos" className="block w-full">
                 <button className="w-full bg-gradient-to-r from-[#9b2247] to-[#611232] text-white py-3 px-4 rounded-xl font-medium hover:shadow-lg transition-all duration-200 group-hover:scale-105">
                   Abrir Argos
@@ -342,7 +342,7 @@ export default function Dashboard() {
                   <p className="text-sm text-slate-600">Agente Conversacional Inteligente</p>
                 </div>
               </div>
-              
+
               <div className="space-y-3 mb-6">
                 <div className="flex items-center space-x-3 text-sm">
                   <MessageCircle className="w-4 h-4 text-[#1e5b4f]" />
@@ -357,7 +357,7 @@ export default function Dashboard() {
                   <span className="text-slate-700">Asistencia para investigadores</span>
                 </div>
               </div>
-              
+
               <Link href="/tlamatia" className="block w-full">
                 <button className="w-full bg-gradient-to-r from-[#1e5b4f] to-[#002f2a] text-white py-3 px-4 rounded-xl font-medium hover:shadow-lg transition-all duration-200 group-hover:scale-105">
                   Chatear con TlamatIA
@@ -446,13 +446,15 @@ export default function Dashboard() {
                     title: 'Crear Proyecto',
                     subtitle: 'Nuevo proyecto de investigación',
                     icon: '🔬',
-                    color: 'from-[#a57f2c] to-[#e6d194]'
+                    color: 'from-[#a57f2c] to-[#e6d194]',
+                    href: '/dashboard/projects/create'
                   },
                   {
-                    title: 'Generar Reporte',
-                    subtitle: 'Análisis y métricas',
-                    icon: '📋',
-                    color: 'from-[#161a1d] to-[#98989A]'
+                    title: 'Explorar Proyectos',
+                    subtitle: 'Descubre y colabora',
+                    icon: '🌍',
+                    color: 'from-[#161a1d] to-[#98989A]',
+                    href: '/dashboard/projects/explore'
                   }
                 ].map((action, index) => {
                   const ButtonContent = (
