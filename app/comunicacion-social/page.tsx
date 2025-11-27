@@ -2,8 +2,10 @@
 
 import { Play, Download, Share2, Eye, Heart, MessageCircle, ArrowLeft, ChevronRight, Calendar, Clock, MapPin, ExternalLink, Copy } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
+import Logo from '@/components/Logo';
 
 const MapaCuenca = dynamic(() => import('../../components/MapaCuenca'), { ssr: false });
 
@@ -22,44 +24,44 @@ export default function ComunicacionSocial() {
   };
 
   const testimonials = [
-    { 
-      role: "Hidroquímica", 
-      location: "Toluca, Estado de México", 
+    {
+      role: "Hidroquímica",
+      location: "Toluca, Estado de México",
       views: "267K",
       videoId: "lvKVsmNDXeg",
       videoTitle: "Calidad del Agua"
     },
-    { 
-      role: "Ecología Acuática", 
-      location: "Chapala, Jalisco", 
+    {
+      role: "Ecología Acuática",
+      location: "Chapala, Jalisco",
       views: "189K",
       videoId: "r1A4zwu7ei4",
       videoTitle: "Ecosistemas Acuáticos"
     },
-    { 
-      role: "Tecnologías Ambientales", 
-      location: "Guadalajara, Jalisco", 
+    {
+      role: "Tecnologías Ambientales",
+      location: "Guadalajara, Jalisco",
       views: "203K",
       videoId: "K81z2yUkOgU",
       videoTitle: "Innovación Verde"
     },
-    { 
-      role: "Gestión Hídrica", 
-      location: "Lerma, Estado de México", 
+    {
+      role: "Gestión Hídrica",
+      location: "Lerma, Estado de México",
       views: "234K",
       videoId: "kKypWRsQSVg",
       videoTitle: "Manejo del Agua"
     },
-    { 
-      role: "Políticas Públicas", 
-      location: "Ciudad de México", 
+    {
+      role: "Políticas Públicas",
+      location: "Ciudad de México",
       views: "156K",
       videoId: "qXKTHpbzuXI",
       videoTitle: "Políticas Hídricas"
     },
-    { 
-      role: "Red de Investigación", 
-      location: "Santiago, Nayarit", 
+    {
+      role: "Red de Investigación",
+      location: "Santiago, Nayarit",
       views: "298K",
       videoId: "RNvURUunJAY",
       videoTitle: "Colaboración Científica"
@@ -134,16 +136,18 @@ export default function ComunicacionSocial() {
                   ) : (
                     <>
                       {person.videoId ? (
-                        <img
+                        <Image
                           src={`https://img.youtube.com/vi/${person.videoId}/hqdefault.jpg`}
-                          className="w-full h-full object-cover"
+                          alt={person.videoTitle || "Video thumbnail"}
+                          fill
+                          className="object-cover"
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-primary to-charcoal" />
                       )}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 bg-opacity-0 group-hover:bg-opacity-90 rounded-full flex items-center justify-center backdrop-blur-sm transition-all" style={{backgroundColor: 'rgba(30, 91, 79, 0)'}}>
-                          <Play className="w-6 h-6 text-white group-hover:opacity-100 transition-all ml-1 opacity-0" style={{color: '#1e5b4f'}} />
+                        <div className="w-16 h-16 bg-opacity-0 group-hover:bg-opacity-90 rounded-full flex items-center justify-center backdrop-blur-sm transition-all" style={{ backgroundColor: 'rgba(30, 91, 79, 0)' }}>
+                          <Play className="w-6 h-6 text-white group-hover:opacity-100 transition-all ml-1 opacity-0" style={{ color: '#1e5b4f' }} />
                         </div>
                       </div>
                       <div className="absolute bottom-4 left-4 text-white">
@@ -192,7 +196,7 @@ export default function ComunicacionSocial() {
                 <div className="text-4xl font-bold text-cream mb-2">{campaign.engagement}</div>
                 <div className="text-cream opacity-75 mb-6">interacciones</div>
                 <div className="text-sm text-cream">{campaign.platform}</div>
-                <button 
+                <button
                   onClick={() => handleCopyHashtag(campaign.title, index)}
                   className="mt-6 bg-charcoal bg-opacity-80 px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all flex items-center space-x-2 mx-auto text-white"
                 >
@@ -209,8 +213,8 @@ export default function ComunicacionSocial() {
       <section className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-4xl font-bold mb-6" style={{color: '#161a1d'}}>Llamado a la Acción</h2>
-            <p className="text-lg max-w-2xl mx-auto" style={{color: '#98989A'}}>Participa en eventos y campañas comunitarias para la saneación de la cuenca.</p>
+            <h2 className="text-4xl font-bold mb-6" style={{ color: '#161a1d' }}>Llamado a la Acción</h2>
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: '#98989A' }}>Participa en eventos y campañas comunitarias para la saneación de la cuenca.</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -241,38 +245,38 @@ export default function ComunicacionSocial() {
               }
             ].map((event, index) => (
               <div key={index} className="group">
-                <div className="p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]" style={{backgroundColor: 'rgba(230, 209, 148, 0.1)', borderColor: 'rgba(165, 127, 44, 0.3)'}} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(155, 34, 71, 0.1)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(230, 209, 148, 0.1)'}>
+                <div className="p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]" style={{ backgroundColor: 'rgba(230, 209, 148, 0.1)', borderColor: 'rgba(165, 127, 44, 0.3)' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(155, 34, 71, 0.1)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(230, 209, 148, 0.1)'}>
                   <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{backgroundColor: '#1e5b4f'}}>
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#1e5b4f' }}>
                       <Calendar className="w-6 h-6 text-white" />
                     </div>
-                    <div className="text-xs px-3 py-1 rounded-full font-medium" style={{backgroundColor: 'rgba(155, 34, 71, 0.1)', color: '#9b2247'}}>
+                    <div className="text-xs px-3 py-1 rounded-full font-medium" style={{ backgroundColor: 'rgba(155, 34, 71, 0.1)', color: '#9b2247' }}>
                       {event.platform}
                     </div>
                   </div>
-                  
-                  <h3 className="text-xl font-bold mb-4" style={{color: '#161a1d'}}>{event.title}</h3>
-                  
+
+                  <h3 className="text-xl font-bold mb-4" style={{ color: '#161a1d' }}>{event.title}</h3>
+
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center space-x-3">
-                      <Clock className="w-4 h-4" style={{color: '#a57f2c'}} />
-                      <span className="text-sm font-medium" style={{color: '#98989A'}}>{event.date}</span>
+                      <Clock className="w-4 h-4" style={{ color: '#a57f2c' }} />
+                      <span className="text-sm font-medium" style={{ color: '#98989A' }}>{event.date}</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <MapPin className="w-4 h-4" style={{color: '#a57f2c'}} />
-                      <span className="text-sm font-medium" style={{color: '#98989A'}}>{event.location}</span>
+                      <MapPin className="w-4 h-4" style={{ color: '#a57f2c' }} />
+                      <span className="text-sm font-medium" style={{ color: '#98989A' }}>{event.location}</span>
                     </div>
                   </div>
-                  
-                  <p className="text-sm leading-relaxed mb-6" style={{color: '#98989A'}}>{event.description}</p>
-                  
-                  <div className="flex justify-center pt-4 border-t" style={{borderColor: 'rgba(165, 127, 44, 0.2)'}}>
-                    <a 
-                      href={event.socialLink} 
-                      target="_blank" 
+
+                  <p className="text-sm leading-relaxed mb-6" style={{ color: '#98989A' }}>{event.description}</p>
+
+                  <div className="flex justify-center pt-4 border-t" style={{ borderColor: 'rgba(165, 127, 44, 0.2)' }}>
+                    <a
+                      href={event.socialLink}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105"
-                      style={{backgroundColor: '#9b2247', color: 'white'}}
+                      style={{ backgroundColor: '#9b2247', color: 'white' }}
                     >
                       <ExternalLink className="w-4 h-4" />
                       <span>Ver Campaña</span>
@@ -291,10 +295,7 @@ export default function ComunicacionSocial() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background: 'linear-gradient(135deg, var(--color-teal), var(--color-charcoal))'}}>
-                  
-                </div>
-                <span className="text-lg font-semibold text-cream">Cuenca Hub</span>
+                <Logo variant="footer" className="mb-4" />
               </div>
               <p className="text-sm text-neutral">Plataforma tecnológica para el saneamiento y restauración de la cuenca Lerma-Chapala-Santiago.</p>
             </div>
@@ -323,7 +324,7 @@ export default function ComunicacionSocial() {
               </ul>
             </div>
           </div>
-          <div className="mt-8 pt-8 text-center text-sm border-t text-neutral" style={{borderTopColor: 'var(--color-teal)'}}>
+          <div className="mt-8 pt-8 text-center text-sm border-t text-neutral" style={{ borderTopColor: 'var(--color-teal)' }}>
             <p>&copy; 2025 Cuenca Hub. Todos los derechos reservados.</p>
           </div>
         </div>

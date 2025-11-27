@@ -1,6 +1,7 @@
 'use client';
 
 import { BarChart3, Eye, Users, Droplets, MapPin, Shield, Zap, Globe, Target, MessageCircle } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import LandingMap from '@/components/LandingMap';
 import Logo from '@/components/Logo';
@@ -73,9 +74,6 @@ export default function Home() {
               <Link href="/login" className="inline-block btn-primary px-10 py-4 rounded-lg font-semibold shadow-lg text-sm uppercase tracking-wide">
                 Ingresar a la Plataforma
               </Link>
-              <button className="border-2 border-primary text-primary px-10 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg text-sm uppercase tracking-wide hover:bg-primary hover:bg-opacity-5">
-                Explorar Datos Abiertos
-              </button>
             </div>
           </div>
         </div>
@@ -312,10 +310,10 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-12 px-6 bg-dark-teal text-neutral">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-5 gap-8">
             <div>
               <Logo variant="footer" className="mb-4" />
-              <p className="text-sm text-neutral">Plataforma tecnológica para el saneamiento y restauración de la cuenca Lerma-Chapala-Santiago.</p>
+              <p className="text-sm text-neutral text-justify">Plataforma tecnológica para el saneamiento y restauración de la cuenca Lerma-Chapala-Santiago.</p>
             </div>
             <div>
               <h4 className="font-semibold mb-3 text-cream">Plataforma</h4>
@@ -340,6 +338,15 @@ export default function Home() {
                 <li>+52 (33) 1234-5678</li>
                 <li>Guadalajara, Jalisco</li>
               </ul>
+            </div>
+            <div className="backdrop-blur-sm">
+              <Image
+                src="/logo/Copernicus_logo.jpg"
+                alt="Copernicus Logo"
+                width={200}
+                height={80}
+                className="object-contain mix-blend-multiply"
+              />
             </div>
           </div>
           <div className="mt-8 pt-8 text-center text-sm border-t text-neutral" style={{ borderTopColor: 'var(--color-teal)' }}>
