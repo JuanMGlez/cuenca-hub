@@ -34,12 +34,12 @@ export default function Footer() {
                     </div>
 
                     <div className="flex items-center backdrop-blur-sm">
-                        <a href="https://www.copernicus.eu/es">
+                        <a href="https://www.copernicus.eu/es" target="_blank" rel="noopener noreferrer">
                             <Image
-                                src="/logo/Copernicus_logo.jpg"
+                                src="/logo/Copernicus_logo.png"
                                 alt="Copernicus Logo"
-                                width={200}
-                                height={80}
+                                width="200"
+                                height="80"
                                 className="object-contain mix-blend-multiply"
                             />
                         </a>
