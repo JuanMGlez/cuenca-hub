@@ -9,7 +9,6 @@ import clsx from 'clsx';
 const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
 const Polygon = dynamic(() => import('react-leaflet').then(mod => mod.Polygon), { ssr: false });
-const useMapEvents = dynamic(() => import('react-leaflet').then(mod => mod.useMapEvents), { ssr: false });
 
 interface AreaSelectorProps {
   onAreaSelect: (coordinates: number[][]) => void;
